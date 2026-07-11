@@ -1,6 +1,5 @@
+@use '@angular/material' as mat;
+
 .header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background-color: var(--mat-sys-surface-container);
+  @include mat.elevation(2);
 }

@@ -4,4 +4,5 @@ export interface Photo {
   readonly url: string;
   readonly width: number;
   readonly height: number;
+  readonly isFavorite: boolean;
 }

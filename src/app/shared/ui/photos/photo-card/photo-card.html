@@ -2,7 +2,7 @@
   <img [src]="photo().url" [alt]="'Photo by ' + photo().author" loading="lazy" />
   <app-icon
     class="badge"
-    [class.badge--active]="isFavorite()"
-    [name]="isFavorite() ? 'favorite' : 'favorite_border'"
+    [class.badge--active]="photo().isFavorite"
+    [name]="photo().isFavorite ? 'favorite' : 'favorite_border'"
   />
 </app-card>

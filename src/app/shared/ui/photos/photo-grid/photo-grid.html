@@ -1,1 +1,5 @@
-<p>photo-grid works!</p>
+<app-grid>
+  @for (photo of photos(); track photo.id) {
+    <app-photo-card [photo]="photo" (cardClick)="photoClick.emit(photo)" />
+  }
+</app-grid>

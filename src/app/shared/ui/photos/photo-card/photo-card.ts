@@ -12,6 +12,5 @@ import { Icon } from '@shared/ui/icon/icon';
 })
 export class PhotoCard {
   readonly photo = input.required<Photo>();
-  readonly isFavorite = input(false);
   readonly cardClick = output<void>();
 }

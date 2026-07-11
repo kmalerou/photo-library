@@ -1,0 +1,5 @@
+<div class="error-state">
+  <app-icon name="error_outline" />
+  <p>{{ message() }}</p>
+  <app-button text="Retry" icon="refresh" (buttonClick)="retry.emit()" />
+</div>

@@ -1,0 +1,7 @@
+<div class="empty-state">
+  <app-icon [name]="icon()" />
+  <p>{{ message() }}</p>
+  @if (actionText(); as text) {
+    <app-button [text]="text" (buttonClick)="action.emit()" />
+  }
+</div>

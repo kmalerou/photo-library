@@ -1,0 +1,5 @@
+@use 'app/shared/styles/mixins';
+
+.error-state {
+  @include mixins.message-state;
+}

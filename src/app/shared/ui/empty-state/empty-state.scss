@@ -1,0 +1,5 @@
+@use 'app/shared/styles/mixins';
+
+.empty-state {
+  @include mixins.message-state;
+}

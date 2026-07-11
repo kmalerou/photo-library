@@ -1,0 +1,6 @@
+dist
+coverage
+.angular
+.agents
+.claude
+*.md

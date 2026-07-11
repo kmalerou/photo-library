@@ -3,20 +3,18 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Icon } from './icon';
 
 describe('Icon', () => {
-  let component: Icon;
   let fixture: ComponentFixture<Icon>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [Icon],
-    }).compileComponents();
-
+  beforeEach(() => {
+    TestBed.configureTestingModule({ imports: [Icon] });
     fixture = TestBed.createComponent(Icon);
-    component = fixture.componentInstance;
-    await fixture.whenStable();
+    fixture.componentRef.setInput('name', 'favorite');
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('renders the given icon name', async () => {
+    await fixture.whenStable();
+
+    const icon = fixture.nativeElement.querySelector('mat-icon');
+    expect(icon?.textContent?.trim()).toBe('favorite');
   });
 });

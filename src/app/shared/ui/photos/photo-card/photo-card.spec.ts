@@ -1,22 +1,61 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { Photo } from '@shared/models/photo';
+
 import { PhotoCard } from './photo-card';
 
 describe('PhotoCard', () => {
-  let component: PhotoCard;
   let fixture: ComponentFixture<PhotoCard>;
+  let component: PhotoCard;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [PhotoCard],
-    }).compileComponents();
+  const photo: Photo = {
+    id: '1',
+    author: 'Jane Doe',
+    url: 'https://picsum.photos/id/1/300/200',
+    width: 300,
+    height: 200,
+  };
 
+  beforeEach(() => {
+    TestBed.configureTestingModule({ imports: [PhotoCard] });
     fixture = TestBed.createComponent(PhotoCard);
     component = fixture.componentInstance;
-    await fixture.whenStable();
+    fixture.componentRef.setInput('photo', photo);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('renders the photo image with author alt text', async () => {
+    await fixture.whenStable();
+
+    const img: HTMLImageElement = fixture.nativeElement.querySelector('img');
+    expect(img.src).toBe(photo.url);
+    expect(img.alt).toBe('Photo by Jane Doe');
+  });
+
+  it('shows an outline heart when not a favorite', async () => {
+    fixture.componentRef.setInput('isFavorite', false);
+    await fixture.whenStable();
+
+    const icon = fixture.nativeElement.querySelector('mat-icon');
+    expect(icon.textContent.trim()).toBe('favorite_border');
+  });
+
+  it('shows a filled heart when a favorite', async () => {
+    fixture.componentRef.setInput('isFavorite', true);
+    await fixture.whenStable();
+
+    const icon = fixture.nativeElement.querySelector('mat-icon');
+    expect(icon.textContent.trim()).toBe('favorite');
+  });
+
+  it('emits cardClick when clicked', async () => {
+    await fixture.whenStable();
+
+    let emitted = false;
+    component.cardClick.subscribe(() => (emitted = true));
+
+    fixture.nativeElement.querySelector('mat-card').click();
+    await fixture.whenStable();
+
+    expect(emitted).toBe(true);
   });
 });

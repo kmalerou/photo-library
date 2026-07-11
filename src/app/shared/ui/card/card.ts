@@ -17,7 +17,7 @@ export class Card {
     }
   }
 
-  protected onSpace(event: KeyboardEvent): void {
+  protected onSpace(event: Event): void {
     if (this.interactive()) {
       event.preventDefault();
       this.cardClick.emit();

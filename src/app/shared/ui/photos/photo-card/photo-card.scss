@@ -1,0 +1,24 @@
+@use '../../../styles/tokens';
+
+.photo-card {
+  cursor: pointer;
+
+  img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+}
+
+.badge {
+  position: absolute;
+  top: tokens.$spacing-sm;
+  right: tokens.$spacing-sm;
+  color: tokens.$color-badge-inactive;
+  filter: drop-shadow(0 1px 2px tokens.$color-badge-shadow);
+}
+
+.badge--active {
+  color: tokens.$color-badge-active;
+}

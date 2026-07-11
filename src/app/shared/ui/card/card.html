@@ -1,0 +1,9 @@
+<mat-card
+  [tabindex]="interactive() ? 0 : null"
+  [attr.role]="interactive() ? 'button' : null"
+  (click)="onClick()"
+  (keydown.enter)="onClick()"
+  (keydown.space)="onSpace($event)"
+>
+  <ng-content />
+</mat-card>

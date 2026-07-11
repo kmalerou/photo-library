@@ -1,0 +1,13 @@
+// Spacing scale
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+
+// Semantic color aliases. These bridge into Angular Material's System
+// (`--mat-sys-*`) design tokens rather than hardcoding literal colors, so
+// component styles stay themeable through Material's theming API.
+$color-badge-inactive: white;
+$color-badge-active: var(--mat-sys-error);
+$color-badge-shadow: rgb(0 0 0 / 0.5);

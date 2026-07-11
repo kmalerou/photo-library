@@ -1,0 +1,6 @@
+<button [matButton]="appearance()" [disabled]="disabled()" (click)="buttonClick.emit()">
+  @if (icon(); as iconName) {
+    <app-icon matButtonIcon [name]="iconName" />
+  }
+  {{ text() }}
+</button>

@@ -1,5 +1,10 @@
 <app-card class="photo-card" [interactive]="true" (cardClick)="cardClick.emit()">
-  <img [src]="photo().url" [alt]="'Photo by ' + photo().author" loading="lazy" />
+  <img
+    appImageFallback
+    [src]="photo().url"
+    [alt]="'Photo by ' + photo().author"
+    loading="lazy"
+  />
   <app-icon
     class="badge"
     [class.badge--active]="photo().isFavorite"

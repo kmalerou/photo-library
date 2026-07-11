@@ -1,12 +1,12 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+
+import { Header } from './core/layout/header/header';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, Header],
 })
-export class App {
-  protected readonly title = signal('gallery-template');
-}
+export class App {}

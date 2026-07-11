@@ -31,8 +31,8 @@ describe('PhotoApi', () => {
     service = TestBed.inject(PhotoApi);
   });
 
-  it('requests the Picsum list endpoint with page/limit params', () => {
-    service.getPhotos(2, 20).subscribe();
+  it('requests the Picsum list endpoint with page and a fixed page size', () => {
+    service.getPhotos(2).subscribe();
 
     expect(apiGet).toHaveBeenCalledWith('https://picsum.photos/v2/list', {
       page: 2,
@@ -42,7 +42,7 @@ describe('PhotoApi', () => {
 
   it('maps the response to the Photo shape, using download_url as the image url', async () => {
     const photos = await new Promise((resolve) => {
-      service.getPhotos(1, 10).subscribe(resolve);
+      service.getPhotos(1).subscribe(resolve);
     });
 
     expect(photos).toEqual([

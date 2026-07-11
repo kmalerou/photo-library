@@ -5,6 +5,7 @@ import { Api } from '@core/api';
 import { Photo } from '@shared/models/photo';
 
 const PICSUM_LIST_URL = 'https://picsum.photos/v2/list';
+const PAGE_SIZE = 20;
 const MIN_DELAY_MS = 200;
 const MAX_DELAY_MS = 300;
 
@@ -23,11 +24,13 @@ interface PicsumPhotoResponse {
 export class PhotoApi {
   private readonly api = inject(Api);
 
-  getPhotos(page: number, limit: number): Observable<FetchedPhoto[]> {
-    return this.api.get<PicsumPhotoResponse[]>(PICSUM_LIST_URL, { page, limit }).pipe(
-      delay(randomDelay()),
-      map((photos) => photos.map(toPhoto)),
-    );
+  getPhotos(page: number): Observable<FetchedPhoto[]> {
+    return this.api
+      .get<PicsumPhotoResponse[]>(PICSUM_LIST_URL, { page, limit: PAGE_SIZE })
+      .pipe(
+        delay(randomDelay()),
+        map((photos) => photos.map(toPhoto)),
+      );
   }
 }
 

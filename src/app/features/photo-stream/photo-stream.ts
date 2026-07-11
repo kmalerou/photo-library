@@ -18,7 +18,6 @@ export class PhotoStream {
       url: `https://picsum.photos/id/${id}/400/300`,
       width: 400,
       height: 300,
-      isFavorite: id % 4 === 0,
     };
   });
 }

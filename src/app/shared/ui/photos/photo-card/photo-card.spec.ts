@@ -14,17 +14,16 @@ describe('PhotoCard', () => {
     url: 'https://picsum.photos/id/1/300/200',
     width: 300,
     height: 200,
-    isFavorite: false,
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({ imports: [PhotoCard] });
     fixture = TestBed.createComponent(PhotoCard);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('photo', photo);
   });
 
   it('renders the photo image with author alt text', async () => {
-    fixture.componentRef.setInput('photo', photo);
     await fixture.whenStable();
 
     const img: HTMLImageElement = fixture.nativeElement.querySelector('img');
@@ -32,24 +31,7 @@ describe('PhotoCard', () => {
     expect(img.alt).toBe('Photo by Jane Doe');
   });
 
-  it('shows an outline heart when not a favorite', async () => {
-    fixture.componentRef.setInput('photo', { ...photo, isFavorite: false });
-    await fixture.whenStable();
-
-    const icon = fixture.nativeElement.querySelector('mat-icon');
-    expect(icon.textContent.trim()).toBe('favorite_border');
-  });
-
-  it('shows a filled heart when a favorite', async () => {
-    fixture.componentRef.setInput('photo', { ...photo, isFavorite: true });
-    await fixture.whenStable();
-
-    const icon = fixture.nativeElement.querySelector('mat-icon');
-    expect(icon.textContent.trim()).toBe('favorite');
-  });
-
   it('emits cardClick when clicked', async () => {
-    fixture.componentRef.setInput('photo', photo);
     await fixture.whenStable();
 
     let emitted = false;

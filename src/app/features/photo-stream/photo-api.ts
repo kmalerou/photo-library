@@ -9,8 +9,6 @@ const PAGE_SIZE = 20;
 const MIN_DELAY_MS = 200;
 const MAX_DELAY_MS = 300;
 
-export type FetchedPhoto = Omit<Photo, 'isFavorite'>;
-
 interface PicsumPhotoResponse {
   readonly id: string;
   readonly author: string;
@@ -24,7 +22,7 @@ interface PicsumPhotoResponse {
 export class PhotoApi {
   private readonly api = inject(Api);
 
-  getPhotos(page: number): Observable<FetchedPhoto[]> {
+  getPhotos(page: number): Observable<Photo[]> {
     return this.api
       .get<PicsumPhotoResponse[]>(PICSUM_LIST_URL, { page, limit: PAGE_SIZE })
       .pipe(
@@ -34,7 +32,7 @@ export class PhotoApi {
   }
 }
 
-function toPhoto(response: PicsumPhotoResponse): FetchedPhoto {
+function toPhoto(response: PicsumPhotoResponse): Photo {
   return {
     id: response.id,
     author: response.author,

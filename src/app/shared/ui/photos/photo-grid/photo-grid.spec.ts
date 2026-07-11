@@ -15,7 +15,6 @@ describe('PhotoGrid', () => {
       url: 'https://picsum.photos/id/1/300/200',
       width: 300,
       height: 200,
-      isFavorite: false,
     },
     {
       id: '2',
@@ -23,7 +22,6 @@ describe('PhotoGrid', () => {
       url: 'https://picsum.photos/id/2/300/200',
       width: 300,
       height: 200,
-      isFavorite: true,
     },
   ];
 

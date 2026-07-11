@@ -10,10 +10,3 @@ $breakpoint-mobile: 480px;
 
 // Radius
 $radius-md: 12px;
-
-// Semantic color aliases. These bridge into Angular Material's System
-// (`--mat-sys-*`) design tokens rather than hardcoding literal colors, so
-// component styles stay themeable through Material's theming API.
-$color-badge-inactive: white;
-$color-badge-active: var(--mat-sys-error);
-$color-badge-shadow: rgb(0 0 0 / 0.5);

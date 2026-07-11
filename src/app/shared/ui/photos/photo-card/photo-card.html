@@ -5,9 +5,4 @@
     [alt]="'Photo by ' + photo().author"
     loading="lazy"
   />
-  <app-icon
-    class="badge"
-    [class.badge--active]="photo().isFavorite"
-    [name]="photo().isFavorite ? 'favorite' : 'favorite_border'"
-  />
 </app-card>

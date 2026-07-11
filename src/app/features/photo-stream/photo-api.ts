@@ -1,7 +1,7 @@
 import { Service, inject } from '@angular/core';
 import { Observable, delay, map } from 'rxjs';
 
-import { Api } from '@core/api/api';
+import { Api } from '@core/api';
 import { Photo } from '@shared/models/photo';
 
 const PICSUM_LIST_URL = 'https://picsum.photos/v2/list';

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { vi } from 'vitest';
 
-import { Api } from '@core/api/api';
+import { Api } from '@core/api';
 
 import { PhotoApi } from './photo-api';
 

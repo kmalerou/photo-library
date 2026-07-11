@@ -11,7 +11,7 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 - Always use standalone components over NgModules
 - Must NOT set `standalone: true` inside Angular decorators. It's the default in Angular v20+.
 - Do NOT set `changeDetection: ChangeDetectionStrategy.OnPush` explicitly. `OnPush` is the default in Angular v22+.
-- Use signals for state management
+- Use signals for local, component-scoped state; use NgRx for shared/cross-feature state (see State Management)
 - Implement lazy loading for feature routes
 - Do NOT use the `@HostBinding` and `@HostListener` decorators. Put host bindings inside the `host` object of the `@Component` or `@Directive` decorator instead
 - Use `NgOptimizedImage` for all static images.
@@ -36,10 +36,13 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 
 ## State Management
 
-- Use signals for local component state
+- Use signals for local, component-scoped state
 - Use `computed()` for derived state
 - Keep state transformations pure and predictable
 - Do NOT use `mutate` on signals, use `update` or `set` instead
+- Use NgRx (`@ngrx/store` + `@ngrx/effects`) for state shared across multiple features/routes
+  - Register a feature's state at the root (`app.config.ts`) only if it's read by more than one lazy-loaded route; otherwise register it lazily via `provideState()` scoped to the route that owns it
+  - Reducers and selectors must stay pure functions; side effects (HTTP calls, persistence) belong in `@ngrx/effects`, never in reducers or components
 
 ## Templates
 

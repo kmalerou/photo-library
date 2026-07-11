@@ -1,4 +1,11 @@
+@use 'app/shared/styles/tokens';
+
 :host {
   display: block;
   position: relative;
+}
+
+mat-card {
+  overflow: hidden;
+  border-radius: tokens.$radius-md;
 }

@@ -5,6 +5,12 @@ $spacing-md: 1rem;
 $spacing-lg: 1.5rem;
 $spacing-xl: 2rem;
 
+// Breakpoints
+$breakpoint-mobile: 480px;
+
+// Radius
+$radius-md: 12px;
+
 // Semantic color aliases. These bridge into Angular Material's System
 // (`--mat-sys-*`) design tokens rather than hardcoding literal colors, so
 // component styles stay themeable through Material's theming API.

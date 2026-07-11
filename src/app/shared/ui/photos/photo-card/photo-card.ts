@@ -1,8 +1,8 @@
 import { Component, input, output } from '@angular/core';
 
-import { Photo } from '../../../models/photo';
-import { Card } from '../../card/card';
-import { Icon } from '../../icon/icon';
+import { Photo } from '@shared/models/photo';
+import { Card } from '@shared/ui/card/card';
+import { Icon } from '@shared/ui/icon/icon';
 
 @Component({
   selector: 'app-photo-card',

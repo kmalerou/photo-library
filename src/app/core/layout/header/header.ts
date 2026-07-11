@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { TabNav, TabNavLink } from '../../../shared/ui/tab-nav/tab-nav';
+import { TabNav, TabNavLink } from '@shared/ui/tab-nav/tab-nav';
 
 @Component({
   selector: 'app-header',

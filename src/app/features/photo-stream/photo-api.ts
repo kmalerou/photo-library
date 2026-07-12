@@ -1,8 +1,10 @@
 import { Service, inject } from '@angular/core';
-import { Observable, delay, map } from 'rxjs';
+import { Observable, delay, map, of } from 'rxjs';
 
 import { Api } from '@core/api';
 import { Photo } from '@shared/models/photo';
+
+import { PicsumPages } from './picsum-pages';
 
 const PICSUM_LIST_URL = 'https://picsum.photos/v2/list';
 const PAGE_SIZE = 20;
@@ -21,14 +23,22 @@ interface PicsumPhotoResponse {
 @Service()
 export class PhotoApi {
   private readonly api = inject(Api);
+  private readonly picsumPages = inject(PicsumPages);
 
-  getPhotos(page: number): Observable<Photo[]> {
-    return this.api
-      .get<PicsumPhotoResponse[]>(PICSUM_LIST_URL, { page, limit: PAGE_SIZE })
-      .pipe(
-        delay(randomDelay()),
-        map((photos) => photos.map(toPhoto)),
-      );
+  getPhotos(): Observable<{ photos: Photo[]; hasMore: boolean }> {
+    const page = this.picsumPages.getNextPage();
+
+    if (page === null) {
+      return of({ photos: [], hasMore: false });
+    }
+
+    return this.api.get<PicsumPhotoResponse[]>(PICSUM_LIST_URL, { page, limit: PAGE_SIZE }).pipe(
+      delay(randomDelay()),
+      map((photos) => ({
+        photos: photos.map(toPhoto),
+        hasMore: this.picsumPages.hasRemainingPages,
+      })),
+    );
   }
 }
 

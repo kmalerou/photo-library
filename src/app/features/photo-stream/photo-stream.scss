@@ -13,3 +13,9 @@ app-spinner {
   justify-content: center;
   padding: tokens.$spacing-lg 0;
 }
+
+.end-message {
+  text-align: center;
+  padding: tokens.$spacing-lg 0;
+  color: var(--mat-sys-on-surface-variant);
+}

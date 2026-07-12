@@ -1,5 +1,6 @@
 @let loading = isLoading();
 @let errorMessage = error();
+@let noMorePhotos = !hasMore();
 
 @if (photos().length === 0) {
   @if (loading) {
@@ -16,10 +17,14 @@
 
   <div
     appInfiniteScroll
-    [disabled]="loading"
+    [disabled]="loading || noMorePhotos"
     (scrolled)="loadMore()"
     class="scroll-sentinel"
   ></div>
+
+  @if (noMorePhotos && !loading && !errorMessage) {
+    <p class="end-message">You've reached the end</p>
+  }
 
   @if (loading) {
     <app-spinner ariaLabel="Loading more photos" />

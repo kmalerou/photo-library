@@ -19,7 +19,7 @@ describe('photoStreamFeature reducer', () => {
   it('starts idle with no photos', () => {
     const state = photoStreamFeature.reducer(undefined, noop);
 
-    expect(state).toEqual({ photos: [], page: 1, status: 'idle' });
+    expect(state).toEqual({ photos: [], status: 'idle', hasMore: null });
   });
 
   it('sets status to loading on loadPhotos', () => {
@@ -33,32 +33,32 @@ describe('photoStreamFeature reducer', () => {
     expect(state.status).toBe('loading');
   });
 
-  it('appends photos, increments the page, and sets status to loaded on loadPhotosSuccess', () => {
+  it('appends photos, sets status to loaded, and records hasMore on loadPhotosSuccess', () => {
     const initialState = photoStreamFeature.reducer(undefined, noop);
 
     const state = photoStreamFeature.reducer(
       { ...initialState, status: 'loading' },
-      PhotoStreamActions.loadPhotosSuccess({ photos: [photo] }),
+      PhotoStreamActions.loadPhotosSuccess({ photos: [photo], hasMore: true }),
     );
 
     expect(state.photos).toEqual([photo]);
-    expect(state.page).toBe(2);
     expect(state.status).toBe('loaded');
+    expect(state.hasMore).toBe(true);
   });
 
-  it('accumulates photos across multiple pages rather than replacing them', () => {
+  it('accumulates photos across multiple loads rather than replacing them', () => {
     let state = photoStreamFeature.reducer(undefined, noop);
     state = photoStreamFeature.reducer(
       state,
-      PhotoStreamActions.loadPhotosSuccess({ photos: [photo] }),
+      PhotoStreamActions.loadPhotosSuccess({ photos: [photo], hasMore: true }),
     );
     state = photoStreamFeature.reducer(
       state,
-      PhotoStreamActions.loadPhotosSuccess({ photos: [{ ...photo, id: '2' }] }),
+      PhotoStreamActions.loadPhotosSuccess({ photos: [{ ...photo, id: '2' }], hasMore: false }),
     );
 
     expect(state.photos.map((p) => p.id)).toEqual(['1', '2']);
-    expect(state.page).toBe(3);
+    expect(state.hasMore).toBe(false);
   });
 
   it('sets an error status on loadPhotosFailure', () => {
@@ -76,7 +76,7 @@ describe('photoStreamFeature reducer', () => {
     const initialState = photoStreamFeature.reducer(undefined, noop);
     const withPhotos = photoStreamFeature.reducer(
       initialState,
-      PhotoStreamActions.loadPhotosSuccess({ photos: [photo] }),
+      PhotoStreamActions.loadPhotosSuccess({ photos: [photo], hasMore: true }),
     );
 
     const state = photoStreamFeature.reducer(withPhotos, PhotoStreamActions.reset());

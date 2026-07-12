@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { Store } from '@ngrx/store';
 import { Subject, firstValueFrom, of, throwError } from 'rxjs';
 import { vi } from 'vitest';
 
@@ -9,8 +8,9 @@ import { ApiError } from '@core/api';
 import { Photo } from '@shared/models/photo';
 
 import { PhotoApi } from '../photo-api';
+import { PicsumPages } from '../picsum-pages';
 import { PhotoStreamActions } from './photo-stream.actions';
-import { loadPhotos$ } from './photo-stream.effects';
+import { loadPhotos$, resetPicsumPages$ } from './photo-stream.effects';
 
 describe('loadPhotos$ effect', () => {
   const photo: Photo = {
@@ -29,22 +29,20 @@ describe('loadPhotos$ effect', () => {
     getPhotos = vi.fn();
 
     TestBed.configureTestingModule({
-      providers: [
-        provideMockActions(() => actions$),
-        { provide: PhotoApi, useValue: { getPhotos } },
-        { provide: Store, useValue: { select: () => of(1) } },
-      ],
+      providers: [provideMockActions(() => actions$), { provide: PhotoApi, useValue: { getPhotos } }],
     });
   });
 
   it('dispatches loadPhotosSuccess with the fetched photos', async () => {
-    getPhotos.mockReturnValue(of([photo]));
+    getPhotos.mockReturnValue(of({ photos: [photo], hasMore: true }));
 
     const result = firstValueFrom(TestBed.runInInjectionContext(() => loadPhotos$()));
     actions$.next(PhotoStreamActions.loadPhotos());
 
-    expect(await result).toEqual(PhotoStreamActions.loadPhotosSuccess({ photos: [photo] }));
-    expect(getPhotos).toHaveBeenCalledWith(1);
+    expect(await result).toEqual(
+      PhotoStreamActions.loadPhotosSuccess({ photos: [photo], hasMore: true }),
+    );
+    expect(getPhotos).toHaveBeenCalled();
   });
 
   it('dispatches loadPhotosFailure when the API errors', async () => {
@@ -55,5 +53,22 @@ describe('loadPhotos$ effect', () => {
     actions$.next(PhotoStreamActions.loadPhotos());
 
     expect(await result).toEqual(PhotoStreamActions.loadPhotosFailure({ error: 'Server error' }));
+  });
+});
+
+describe('resetPicsumPages$ effect', () => {
+  it('resets the page pool when the photo stream resets', async () => {
+    const actions$ = new Subject<Action>();
+    const reset = vi.fn();
+
+    TestBed.configureTestingModule({
+      providers: [provideMockActions(() => actions$), { provide: PicsumPages, useValue: { reset } }],
+    });
+
+    const emitted = firstValueFrom(TestBed.runInInjectionContext(() => resetPicsumPages$()));
+    actions$.next(PhotoStreamActions.reset());
+    await emitted;
+
+    expect(reset).toHaveBeenCalled();
   });
 });

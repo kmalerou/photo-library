@@ -9,14 +9,14 @@ export type PhotoStreamStatus = LoadStatus<string>;
 
 export interface PhotoStreamState {
   readonly photos: Photo[];
-  readonly page: number;
   readonly status: PhotoStreamStatus;
+  readonly hasMore: boolean | null;
 }
 
 const initialState: PhotoStreamState = {
   photos: [],
-  page: 1,
   status: 'idle',
+  hasMore: null,
 };
 
 export const photoStreamFeature = createFeature({
@@ -29,10 +29,10 @@ export const photoStreamFeature = createFeature({
     ),
     on(
       PhotoStreamActions.loadPhotosSuccess,
-      (state, { photos }): PhotoStreamState => ({
+      (state, { photos, hasMore }): PhotoStreamState => ({
         photos: [...state.photos, ...photos],
-        page: state.page + 1,
         status: 'loaded',
+        hasMore,
       }),
     ),
     on(

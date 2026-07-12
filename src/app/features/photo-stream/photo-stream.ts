@@ -26,6 +26,7 @@ export class PhotoStream implements OnDestroy {
 
   protected readonly photos = this.store.selectSignal(photoStreamFeature.selectPhotos);
   protected readonly status = this.store.selectSignal(photoStreamFeature.selectStatus);
+  protected readonly hasMore = this.store.selectSignal(photoStreamFeature.selectHasMore);
   protected readonly isLoading = computed(() => this.status() === 'loading');
   protected readonly error = computed(() => {
     const status = this.status();

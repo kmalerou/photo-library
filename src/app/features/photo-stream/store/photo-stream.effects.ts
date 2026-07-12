@@ -1,22 +1,20 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { catchError, exhaustMap, map, of, withLatestFrom } from 'rxjs';
+import { catchError, exhaustMap, map, of, tap } from 'rxjs';
 
 import { ApiError } from '@core/api';
 
 import { PhotoApi } from '../photo-api';
+import { PicsumPages } from '../picsum-pages';
 import { PhotoStreamActions } from './photo-stream.actions';
-import { photoStreamFeature } from './photo-stream.reducer';
 
 export const loadPhotos$ = createEffect(
-  (actions$ = inject(Actions), photoApi = inject(PhotoApi), store = inject(Store)) =>
+  (actions$ = inject(Actions), photoApi = inject(PhotoApi)) =>
     actions$.pipe(
       ofType(PhotoStreamActions.loadPhotos),
-      withLatestFrom(store.select(photoStreamFeature.selectPage)),
-      exhaustMap(([, page]) =>
-        photoApi.getPhotos(page).pipe(
-          map((photos) => PhotoStreamActions.loadPhotosSuccess({ photos })),
+      exhaustMap(() =>
+        photoApi.getPhotos().pipe(
+          map(({ photos, hasMore }) => PhotoStreamActions.loadPhotosSuccess({ photos, hasMore })),
           catchError((error: ApiError) =>
             of(PhotoStreamActions.loadPhotosFailure({ error: error.message })),
           ),
@@ -26,4 +24,13 @@ export const loadPhotos$ = createEffect(
   { functional: true },
 );
 
-export const photoStreamEffects = { loadPhotos$ };
+export const resetPicsumPages$ = createEffect(
+  (actions$ = inject(Actions), picsumPages = inject(PicsumPages)) =>
+    actions$.pipe(
+      ofType(PhotoStreamActions.reset),
+      tap(() => picsumPages.reset()),
+    ),
+  { functional: true, dispatch: false },
+);
+
+export const photoStreamEffects = { loadPhotos$, resetPicsumPages$ };

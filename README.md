@@ -38,7 +38,7 @@ Runs at `http://localhost:4200`.
 | `npm run test:coverage`  | Run tests with a coverage report (gated at 75%)  |
 | `npm run lint`            | Lint the codebase                               |
 | `npm run format`          | Format with Prettier                            |
-| `git push`                | Runs `test:coverage` automatically via a Husky pre-push hook |
+| `git push`                | Runs `lint` and `test:coverage` automatically via a Husky pre-push hook |
 
 ## Project Structure
 

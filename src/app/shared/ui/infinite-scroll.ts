@@ -1,4 +1,12 @@
-import { Directive, ElementRef, OnDestroy, OnInit, inject, input, output } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 
 @Directive({
   selector: '[appInfiniteScroll]',

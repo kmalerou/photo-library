@@ -11,12 +11,18 @@ import { toErrorMessage } from '@shared/utils/error';
 import { FavoritesActions } from './favorites.actions';
 import { FAVORITES_STORAGE_KEY, favoritesFeature } from './favorites.reducer';
 
-const FAVORITES_TOASTS: Record<string, { message: string; type: SnackbarType }> = {
+const FAVORITES_TOASTS: Record<
+  string,
+  { message: string; type: SnackbarType }
+> = {
   [FavoritesActions.loadFavoritesFailure.type]: {
     message: 'Could not load your favorites',
     type: 'warn',
   },
-  [FavoritesActions.addFavoriteSuccess.type]: { message: 'Added to favorites', type: 'success' },
+  [FavoritesActions.addFavoriteSuccess.type]: {
+    message: 'Added to favorites',
+    type: 'success',
+  },
   [FavoritesActions.addFavoriteDuplicate.type]: {
     message: 'Already in favorites',
     type: 'warn',
@@ -46,10 +52,13 @@ export const loadFavorites$ = createEffect(
       ofType(FavoritesActions.loadFavorites, rootEffectsInit),
       map(() => {
         try {
-          const entities = storage.getItem<Record<string, Photo>>(FAVORITES_STORAGE_KEY) ?? {};
+          const entities =
+            storage.getItem<Record<string, Photo>>(FAVORITES_STORAGE_KEY) ?? {};
           return FavoritesActions.loadFavoritesSuccess({ entities });
         } catch (error) {
-          return FavoritesActions.loadFavoritesFailure({ error: toErrorMessage(error) });
+          return FavoritesActions.loadFavoritesFailure({
+            error: toErrorMessage(error),
+          });
         }
       }),
     ),
@@ -57,7 +66,11 @@ export const loadFavorites$ = createEffect(
 );
 
 export const addFavorite$ = createEffect(
-  (actions$ = inject(Actions), store = inject(Store), storage = inject(LocalStorage)) =>
+  (
+    actions$ = inject(Actions),
+    store = inject(Store),
+    storage = inject(LocalStorage),
+  ) =>
     actions$.pipe(
       ofType(FavoritesActions.addFavorite),
       withLatestFrom(store.select(favoritesFeature.selectEntities)),
@@ -67,10 +80,15 @@ export const addFavorite$ = createEffect(
         }
 
         try {
-          storage.setItem(FAVORITES_STORAGE_KEY, { ...entities, [photo.id]: photo });
+          storage.setItem(FAVORITES_STORAGE_KEY, {
+            ...entities,
+            [photo.id]: photo,
+          });
           return FavoritesActions.addFavoriteSuccess({ photo });
         } catch (error) {
-          return FavoritesActions.addFavoriteFailure({ error: toErrorMessage(error) });
+          return FavoritesActions.addFavoriteFailure({
+            error: toErrorMessage(error),
+          });
         }
       }),
     ),
@@ -78,7 +96,11 @@ export const addFavorite$ = createEffect(
 );
 
 export const removeFavorite$ = createEffect(
-  (actions$ = inject(Actions), store = inject(Store), storage = inject(LocalStorage)) =>
+  (
+    actions$ = inject(Actions),
+    store = inject(Store),
+    storage = inject(LocalStorage),
+  ) =>
     actions$.pipe(
       ofType(FavoritesActions.removeFavorite),
       withLatestFrom(store.select(favoritesFeature.selectEntities)),
@@ -89,7 +111,9 @@ export const removeFavorite$ = createEffect(
           storage.setItem(FAVORITES_STORAGE_KEY, rest);
           return FavoritesActions.removeFavoriteSuccess({ id });
         } catch (error) {
-          return FavoritesActions.removeFavoriteFailure({ error: toErrorMessage(error) });
+          return FavoritesActions.removeFavoriteFailure({
+            error: toErrorMessage(error),
+          });
         }
       }),
     ),
@@ -112,4 +136,9 @@ export const notifyFavorites$ = createEffect(
   { functional: true, dispatch: false },
 );
 
-export const favoritesEffects = { loadFavorites$, addFavorite$, removeFavorite$, notifyFavorites$ };
+export const favoritesEffects = {
+  loadFavorites$,
+  addFavorite$,
+  removeFavorite$,
+  notifyFavorites$,
+};

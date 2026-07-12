@@ -1,4 +1,8 @@
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpParams,
+} from '@angular/common/http';
 import { Service, inject } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 
@@ -19,12 +23,22 @@ export class Api {
     return this.request<T>('GET', url, params);
   }
 
-  private request<T>(method: HttpMethod, url: string, params?: ApiParams): Observable<T> {
-    const httpParams = params ? new HttpParams({ fromObject: params }) : undefined;
+  private request<T>(
+    method: HttpMethod,
+    url: string,
+    params?: ApiParams,
+  ): Observable<T> {
+    const httpParams = params
+      ? new HttpParams({ fromObject: params })
+      : undefined;
 
     return this.http
       .request<T>(method, url, { params: httpParams })
-      .pipe(catchError((error: HttpErrorResponse) => throwError(() => this.toApiError(error))));
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          throwError(() => this.toApiError(error)),
+        ),
+      );
   }
 
   private toApiError(error: HttpErrorResponse): ApiError {

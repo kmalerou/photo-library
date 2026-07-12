@@ -21,7 +21,9 @@ export class PhotoDetail {
 
   readonly id = input.required<string>();
 
-  private readonly favoriteEntities = this.store.selectSignal(favoritesFeature.selectEntities);
+  private readonly favoriteEntities = this.store.selectSignal(
+    favoritesFeature.selectEntities,
+  );
 
   protected readonly photo = computed(() => this.favoriteEntities()[this.id()]);
 

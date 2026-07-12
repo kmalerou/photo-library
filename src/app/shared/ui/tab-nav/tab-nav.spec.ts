@@ -49,7 +49,9 @@ describe('TabNav', () => {
     await harness.navigateByUrl('/', TestHost);
     await harness.fixture.whenStable();
 
-    const tabLinks = harness.routeDebugElement!.queryAll(By.directive(MatTabLink));
+    const tabLinks = harness.routeDebugElement!.queryAll(
+      By.directive(MatTabLink),
+    );
 
     expect(tabLinks[0].injector.get(MatTabLink).active).toBe(true);
     expect(tabLinks[1].injector.get(MatTabLink).active).toBe(false);
@@ -60,7 +62,9 @@ describe('TabNav', () => {
     await harness.navigateByUrl('/favorites', TestHost);
     await harness.fixture.whenStable();
 
-    const tabLinks = harness.routeDebugElement!.queryAll(By.directive(MatTabLink));
+    const tabLinks = harness.routeDebugElement!.queryAll(
+      By.directive(MatTabLink),
+    );
 
     expect(tabLinks[0].injector.get(MatTabLink).active).toBe(false);
     expect(tabLinks[1].injector.get(MatTabLink).active).toBe(true);

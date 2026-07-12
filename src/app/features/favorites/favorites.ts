@@ -18,7 +18,9 @@ export class Favorites {
   private readonly store = inject(Store);
   private readonly router = inject(Router);
 
-  protected readonly favorites = this.store.selectSignal(favoritesFeature.selectAll);
+  protected readonly favorites = this.store.selectSignal(
+    favoritesFeature.selectAll,
+  );
 
   protected viewPhoto(photo: Photo): void {
     this.router.navigate(['/photos', photo.id]);

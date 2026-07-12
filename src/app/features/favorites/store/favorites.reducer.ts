@@ -25,13 +25,16 @@ export const favoritesFeature = createFeature({
   name: 'favorites',
   reducer: createReducer(
     initialState,
-    on(
-      FavoritesActions.loadFavorites,
-      (state): FavoritesState => ({ ...state, status: 'loading' }),
-    ),
+    on(FavoritesActions.loadFavorites, (state): FavoritesState => ({
+      ...state,
+      status: 'loading',
+    })),
     on(
       FavoritesActions.loadFavoritesSuccess,
-      (_state, { entities }): FavoritesState => ({ entities, status: 'loaded' }),
+      (_state, { entities }): FavoritesState => ({
+        entities,
+        status: 'loaded',
+      }),
     ),
     on(
       FavoritesActions.loadFavoritesFailure,
@@ -70,7 +73,9 @@ export const favoritesFeature = createFeature({
     ),
   ),
   extraSelectors: ({ selectEntities, selectStatus }) => ({
-    selectAll: createSelector(selectEntities, (entities) => Object.values(entities)),
+    selectAll: createSelector(selectEntities, (entities) =>
+      Object.values(entities),
+    ),
     selectError: createSelector(selectStatus, (status) =>
       typeof status === 'object' ? status.error : null,
     ),

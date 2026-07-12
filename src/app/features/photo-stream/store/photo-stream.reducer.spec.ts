@@ -54,7 +54,10 @@ describe('photoStreamFeature reducer', () => {
     );
     state = photoStreamFeature.reducer(
       state,
-      PhotoStreamActions.loadPhotosSuccess({ photos: [{ ...photo, id: '2' }], hasMore: false }),
+      PhotoStreamActions.loadPhotosSuccess({
+        photos: [{ ...photo, id: '2' }],
+        hasMore: false,
+      }),
     );
 
     expect(state.photos.map((p) => p.id)).toEqual(['1', '2']);
@@ -79,7 +82,10 @@ describe('photoStreamFeature reducer', () => {
       PhotoStreamActions.loadPhotosSuccess({ photos: [photo], hasMore: true }),
     );
 
-    const state = photoStreamFeature.reducer(withPhotos, PhotoStreamActions.reset());
+    const state = photoStreamFeature.reducer(
+      withPhotos,
+      PhotoStreamActions.reset(),
+    );
 
     expect(state).toEqual(initialState);
   });

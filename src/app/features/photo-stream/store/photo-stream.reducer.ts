@@ -23,10 +23,10 @@ export const photoStreamFeature = createFeature({
   name: 'photoStream',
   reducer: createReducer(
     initialState,
-    on(
-      PhotoStreamActions.loadPhotos,
-      (state): PhotoStreamState => ({ ...state, status: 'loading' }),
-    ),
+    on(PhotoStreamActions.loadPhotos, (state): PhotoStreamState => ({
+      ...state,
+      status: 'loading',
+    })),
     on(
       PhotoStreamActions.loadPhotosSuccess,
       (state, { photos, hasMore }): PhotoStreamState => ({

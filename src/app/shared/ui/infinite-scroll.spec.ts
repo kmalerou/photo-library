@@ -7,7 +7,11 @@ import { InfiniteScroll } from './infinite-scroll';
 @Component({
   selector: 'app-infinite-scroll-test-host',
   imports: [InfiniteScroll],
-  template: `<div appInfiniteScroll [disabled]="disabled()" (scrolled)="onScrolled()"></div>`,
+  template: `<div
+    appInfiniteScroll
+    [disabled]="disabled()"
+    (scrolled)="onScrolled()"
+  ></div>`,
 })
 class TestHost {
   readonly disabled = signal(false);
@@ -18,7 +22,9 @@ describe('InfiniteScroll', () => {
   let fixture: ComponentFixture<TestHost>;
   let observeSpy: ReturnType<typeof vi.fn>;
   let disconnectSpy: ReturnType<typeof vi.fn>;
-  let intersectionCallback: (entries: Partial<IntersectionObserverEntry>[]) => void;
+  let intersectionCallback: (
+    entries: Partial<IntersectionObserverEntry>[],
+  ) => void;
 
   beforeEach(() => {
     observeSpy = vi.fn();
@@ -26,7 +32,9 @@ describe('InfiniteScroll', () => {
 
     vi.stubGlobal(
       'IntersectionObserver',
-      vi.fn().mockImplementation(function (callback: typeof intersectionCallback) {
+      vi.fn().mockImplementation(function (
+        callback: typeof intersectionCallback,
+      ) {
         intersectionCallback = callback;
         return { observe: observeSpy, disconnect: disconnectSpy };
       }),

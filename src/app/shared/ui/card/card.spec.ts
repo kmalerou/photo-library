@@ -79,7 +79,9 @@ describe('Card', () => {
 
     fixture.nativeElement
       .querySelector('mat-card')
-      .dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+      .dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }),
+      );
     await fixture.whenStable();
 
     expect(emitted).toBe(true);
@@ -95,7 +97,11 @@ describe('Card', () => {
     fixture.nativeElement
       .querySelector('mat-card')
       .dispatchEvent(
-        new KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true }),
+        new KeyboardEvent('keydown', {
+          key: ' ',
+          bubbles: true,
+          cancelable: true,
+        }),
       );
     await fixture.whenStable();
 
@@ -112,7 +118,11 @@ describe('Card', () => {
     fixture.nativeElement
       .querySelector('mat-card')
       .dispatchEvent(
-        new KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true }),
+        new KeyboardEvent('keydown', {
+          key: ' ',
+          bubbles: true,
+          cancelable: true,
+        }),
       );
     await fixture.whenStable();
 

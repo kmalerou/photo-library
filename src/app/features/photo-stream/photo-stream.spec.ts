@@ -51,18 +51,26 @@ describe('PhotoStream', () => {
     setup({ photos: [], status: 'idle', hasMore: null });
     await fixture.whenStable();
 
-    expect(store.dispatch).toHaveBeenCalledWith(PhotoStreamActions.loadPhotos());
+    expect(store.dispatch).toHaveBeenCalledWith(
+      PhotoStreamActions.loadPhotos(),
+    );
   });
 
   it('renders a skeleton grid on initial load', async () => {
     setup({ photos: [], status: 'loading', hasMore: null });
     await fixture.whenStable();
 
-    expect(fixture.nativeElement.querySelectorAll('app-skeleton').length).toBeGreaterThan(0);
+    expect(
+      fixture.nativeElement.querySelectorAll('app-skeleton').length,
+    ).toBeGreaterThan(0);
   });
 
   it('renders an error state when the initial load fails', async () => {
-    setup({ photos: [], status: { error: 'Failed to load photos.' }, hasMore: null });
+    setup({
+      photos: [],
+      status: { error: 'Failed to load photos.' },
+      hasMore: null,
+    });
     await fixture.whenStable();
 
     expect(fixture.nativeElement.querySelector('app-error-state')).toBeTruthy();
@@ -81,19 +89,27 @@ describe('PhotoStream', () => {
 
     expect(fixture.nativeElement.querySelector('app-spinner')).toBeTruthy();
     expect(
-      fixture.nativeElement.querySelector('mat-progress-spinner')?.getAttribute('aria-label'),
+      fixture.nativeElement
+        .querySelector('mat-progress-spinner')
+        ?.getAttribute('aria-label'),
     ).toBe('Loading more photos');
   });
 
   it('dispatches loadPhotos again when retry is clicked after a failed load', async () => {
-    setup({ photos: [], status: { error: 'Failed to load photos.' }, hasMore: null });
+    setup({
+      photos: [],
+      status: { error: 'Failed to load photos.' },
+      hasMore: null,
+    });
     await fixture.whenStable();
     (store.dispatch as ReturnType<typeof vi.fn>).mockClear();
 
     fixture.nativeElement.querySelector('button').click();
     await fixture.whenStable();
 
-    expect(store.dispatch).toHaveBeenCalledWith(PhotoStreamActions.loadPhotos());
+    expect(store.dispatch).toHaveBeenCalledWith(
+      PhotoStreamActions.loadPhotos(),
+    );
   });
 
   it('dispatches addFavorite when a photo card is clicked', async () => {
@@ -104,7 +120,9 @@ describe('PhotoStream', () => {
     fixture.nativeElement.querySelector('mat-card').click();
     await fixture.whenStable();
 
-    expect(store.dispatch).toHaveBeenCalledWith(FavoritesActions.addFavorite({ photo }));
+    expect(store.dispatch).toHaveBeenCalledWith(
+      FavoritesActions.addFavorite({ photo }),
+    );
   });
 
   it('dispatches loadPhotos when the scroll sentinel reports scrolled', async () => {
@@ -116,7 +134,9 @@ describe('PhotoStream', () => {
     sentinel.injector.get(InfiniteScroll).scrolled.emit();
     await fixture.whenStable();
 
-    expect(store.dispatch).toHaveBeenCalledWith(PhotoStreamActions.loadPhotos());
+    expect(store.dispatch).toHaveBeenCalledWith(
+      PhotoStreamActions.loadPhotos(),
+    );
   });
 
   it('disables the infinite scroll sentinel once there are no more photos to load', async () => {
@@ -132,9 +152,9 @@ describe('PhotoStream', () => {
     setup({ photos: [photo], status: 'loaded', hasMore: false });
     await fixture.whenStable();
 
-    expect(fixture.nativeElement.querySelector('.end-message')?.textContent).toContain(
-      "You've reached the end",
-    );
+    expect(
+      fixture.nativeElement.querySelector('.end-message')?.textContent,
+    ).toContain("You've reached the end");
   });
 
   it('does not show the end-of-content message while more photos are still loading', async () => {

@@ -1,5 +1,8 @@
 import { provideHttpClient } from '@angular/common/http';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import {
+  HttpTestingController,
+  provideHttpClientTesting,
+} from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { Api, ApiError } from './api';
@@ -29,9 +32,13 @@ describe('Api', () => {
   });
 
   it('serializes params onto the request', () => {
-    service.get('https://example.com/photos', { page: 2, limit: 10 }).subscribe();
+    service
+      .get('https://example.com/photos', { page: 2, limit: 10 })
+      .subscribe();
 
-    const req = httpMock.expectOne((request) => request.url === 'https://example.com/photos');
+    const req = httpMock.expectOne(
+      (request) => request.url === 'https://example.com/photos',
+    );
     expect(req.request.params.get('page')).toBe('2');
     expect(req.request.params.get('limit')).toBe('10');
     req.flush({});

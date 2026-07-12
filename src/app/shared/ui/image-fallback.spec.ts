@@ -6,7 +6,11 @@ import { ImageFallback } from './image-fallback';
 @Component({
   selector: 'app-image-fallback-test-host',
   imports: [ImageFallback],
-  template: `<img appImageFallback src="https://example.com/broken.jpg" alt="test" />`,
+  template: `<img
+    appImageFallback
+    src="https://example.com/broken.jpg"
+    alt="test"
+  />`,
 })
 class TestHost {}
 

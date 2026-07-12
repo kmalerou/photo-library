@@ -73,7 +73,9 @@ describe('PhotoDetail', () => {
     fixture.nativeElement.querySelector('button').click();
     await fixture.whenStable();
 
-    expect(dispatchSpy).toHaveBeenCalledWith(FavoritesActions.removeFavorite({ id: photo.id }));
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      FavoritesActions.removeFavorite({ id: photo.id }),
+    );
     expect(navigate).toHaveBeenCalledWith(['/favorites']);
   });
 });

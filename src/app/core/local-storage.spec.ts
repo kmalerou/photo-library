@@ -23,7 +23,9 @@ describe('LocalStorage', () => {
   });
 
   it('returns null when the stored value is invalid JSON', () => {
-    const getItem = vi.spyOn(Storage.prototype, 'getItem').mockReturnValue('not-json');
+    const getItem = vi
+      .spyOn(Storage.prototype, 'getItem')
+      .mockReturnValue('not-json');
 
     expect(service.getItem('favorites')).toBeNull();
 

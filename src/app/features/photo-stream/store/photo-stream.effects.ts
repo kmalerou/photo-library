@@ -14,7 +14,9 @@ export const loadPhotos$ = createEffect(
       ofType(PhotoStreamActions.loadPhotos),
       exhaustMap(() =>
         photoApi.getPhotos().pipe(
-          map(({ photos, hasMore }) => PhotoStreamActions.loadPhotosSuccess({ photos, hasMore })),
+          map(({ photos, hasMore }) =>
+            PhotoStreamActions.loadPhotosSuccess({ photos, hasMore }),
+          ),
           catchError((error: ApiError) =>
             of(PhotoStreamActions.loadPhotosFailure({ error: error.message })),
           ),

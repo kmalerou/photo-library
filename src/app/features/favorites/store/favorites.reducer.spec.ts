@@ -25,7 +25,10 @@ describe('favoritesFeature reducer', () => {
   it('sets status to loading on loadFavorites', () => {
     const initialState = favoritesFeature.reducer(undefined, noop);
 
-    const state = favoritesFeature.reducer(initialState, FavoritesActions.loadFavorites());
+    const state = favoritesFeature.reducer(
+      initialState,
+      FavoritesActions.loadFavorites(),
+    );
 
     expect(state.status).toBe('loading');
   });
@@ -35,10 +38,15 @@ describe('favoritesFeature reducer', () => {
 
     const state = favoritesFeature.reducer(
       initialState,
-      FavoritesActions.loadFavoritesSuccess({ entities: { [photo.id]: photo } }),
+      FavoritesActions.loadFavoritesSuccess({
+        entities: { [photo.id]: photo },
+      }),
     );
 
-    expect(state).toEqual({ entities: { [photo.id]: photo }, status: 'loaded' });
+    expect(state).toEqual({
+      entities: { [photo.id]: photo },
+      status: 'loaded',
+    });
   });
 
   it('sets an error status on loadFavoritesFailure', () => {

@@ -16,7 +16,9 @@ describe('EmptyState', () => {
   it('renders the given message', async () => {
     await fixture.whenStable();
 
-    expect(fixture.nativeElement.querySelector('p').textContent.trim()).toBe('No favorites yet.');
+    expect(fixture.nativeElement.querySelector('p').textContent.trim()).toBe(
+      'No favorites yet.',
+    );
   });
 
   it('renders no action button when actionText is not provided', async () => {

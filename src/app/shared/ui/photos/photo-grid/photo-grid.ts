@@ -2,7 +2,10 @@ import { Component, input, output } from '@angular/core';
 
 import { Photo } from '@shared/models/photo';
 import { Grid } from '@shared/ui/grid/grid';
-import { PhotoCard, PhotoCardBadge } from '@shared/ui/photos/photo-card/photo-card';
+import {
+  PhotoCard,
+  PhotoCardBadge,
+} from '@shared/ui/photos/photo-card/photo-card';
 
 @Component({
   selector: 'app-photo-grid',

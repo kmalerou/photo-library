@@ -9,7 +9,8 @@ const FALLBACK_IMAGE = 'assets/image-fallback.svg';
   },
 })
 export class ImageFallback {
-  private readonly elementRef = inject<ElementRef<HTMLImageElement>>(ElementRef);
+  private readonly elementRef =
+    inject<ElementRef<HTMLImageElement>>(ElementRef);
 
   protected applyFallback(): void {
     this.elementRef.nativeElement.src = FALLBACK_IMAGE;

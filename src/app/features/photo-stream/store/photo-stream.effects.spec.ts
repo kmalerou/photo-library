@@ -29,14 +29,19 @@ describe('loadPhotos$ effect', () => {
     getPhotos = vi.fn();
 
     TestBed.configureTestingModule({
-      providers: [provideMockActions(() => actions$), { provide: PhotoApi, useValue: { getPhotos } }],
+      providers: [
+        provideMockActions(() => actions$),
+        { provide: PhotoApi, useValue: { getPhotos } },
+      ],
     });
   });
 
   it('dispatches loadPhotosSuccess with the fetched photos', async () => {
     getPhotos.mockReturnValue(of({ photos: [photo], hasMore: true }));
 
-    const result = firstValueFrom(TestBed.runInInjectionContext(() => loadPhotos$()));
+    const result = firstValueFrom(
+      TestBed.runInInjectionContext(() => loadPhotos$()),
+    );
     actions$.next(PhotoStreamActions.loadPhotos());
 
     expect(await result).toEqual(
@@ -49,10 +54,14 @@ describe('loadPhotos$ effect', () => {
     const apiError: ApiError = { status: 500, message: 'Server error' };
     getPhotos.mockReturnValue(throwError(() => apiError));
 
-    const result = firstValueFrom(TestBed.runInInjectionContext(() => loadPhotos$()));
+    const result = firstValueFrom(
+      TestBed.runInInjectionContext(() => loadPhotos$()),
+    );
     actions$.next(PhotoStreamActions.loadPhotos());
 
-    expect(await result).toEqual(PhotoStreamActions.loadPhotosFailure({ error: 'Server error' }));
+    expect(await result).toEqual(
+      PhotoStreamActions.loadPhotosFailure({ error: 'Server error' }),
+    );
   });
 });
 
@@ -62,10 +71,15 @@ describe('resetPicsumPages$ effect', () => {
     const reset = vi.fn();
 
     TestBed.configureTestingModule({
-      providers: [provideMockActions(() => actions$), { provide: PicsumPages, useValue: { reset } }],
+      providers: [
+        provideMockActions(() => actions$),
+        { provide: PicsumPages, useValue: { reset } },
+      ],
     });
 
-    const emitted = firstValueFrom(TestBed.runInInjectionContext(() => resetPicsumPages$()));
+    const emitted = firstValueFrom(
+      TestBed.runInInjectionContext(() => resetPicsumPages$()),
+    );
     actions$.next(PhotoStreamActions.reset());
     await emitted;
 

@@ -11,11 +11,15 @@ export const routes: Routes = [
   {
     path: '',
     component: PhotoStream,
-    providers: [provideState(photoStreamFeature), provideEffects(photoStreamEffects)],
+    providers: [
+      provideState(photoStreamFeature),
+      provideEffects(photoStreamEffects),
+    ],
   },
   {
     path: 'favorites',
-    loadComponent: () => import('./features/favorites/favorites').then((m) => m.Favorites),
+    loadComponent: () =>
+      import('./features/favorites/favorites').then((m) => m.Favorites),
   },
   {
     path: 'photos/:id',

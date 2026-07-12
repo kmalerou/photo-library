@@ -1,5 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { ActivatedRouteSnapshot, Router, UrlTree, convertToParamMap } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  Router,
+  UrlTree,
+  convertToParamMap,
+} from '@angular/router';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Observable, firstValueFrom } from 'rxjs';
 import { vi } from 'vitest';
@@ -23,7 +28,10 @@ describe('photoExistsGuard', () => {
   let snackbarOpen: ReturnType<typeof vi.fn>;
   let store: MockStore;
 
-  function setup(entities: Record<string, Photo>, status: FavoritesStatus = 'loaded'): void {
+  function setup(
+    entities: Record<string, Photo>,
+    status: FavoritesStatus = 'loaded',
+  ): void {
     parseUrl = vi.fn().mockReturnValue('parsed-url-tree');
     snackbarOpen = vi.fn();
 
@@ -39,10 +47,12 @@ describe('photoExistsGuard', () => {
   }
 
   function runGuard(id: string): Observable<boolean | UrlTree> {
-    const route = { paramMap: convertToParamMap({ id }) } as ActivatedRouteSnapshot;
-    return TestBed.runInInjectionContext(() => photoExistsGuard(route, {} as never)) as Observable<
-      boolean | UrlTree
-    >;
+    const route = {
+      paramMap: convertToParamMap({ id }),
+    } as ActivatedRouteSnapshot;
+    return TestBed.runInInjectionContext(() =>
+      photoExistsGuard(route, {} as never),
+    ) as Observable<boolean | UrlTree>;
   }
 
   it('allows activation when the photo is in favorites', async () => {
@@ -77,11 +87,15 @@ describe('photoExistsGuard', () => {
     setup({}, 'idle');
 
     const emissions: unknown[] = [];
-    const subscription = runGuard(photo.id).subscribe((result) => emissions.push(result));
+    const subscription = runGuard(photo.id).subscribe((result) =>
+      emissions.push(result),
+    );
 
     expect(emissions).toHaveLength(0);
 
-    store.setState({ favorites: { entities: { [photo.id]: photo }, status: 'loaded' } });
+    store.setState({
+      favorites: { entities: { [photo.id]: photo }, status: 'loaded' },
+    });
 
     expect(emissions).toEqual([true]);
     subscription.unsubscribe();

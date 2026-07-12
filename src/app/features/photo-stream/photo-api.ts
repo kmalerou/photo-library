@@ -32,13 +32,15 @@ export class PhotoApi {
       return of({ photos: [], hasMore: false });
     }
 
-    return this.api.get<PicsumPhotoResponse[]>(PICSUM_LIST_URL, { page, limit: PAGE_SIZE }).pipe(
-      delay(randomDelay()),
-      map((photos) => ({
-        photos: photos.map(toPhoto),
-        hasMore: this.picsumPages.hasRemainingPages,
-      })),
-    );
+    return this.api
+      .get<PicsumPhotoResponse[]>(PICSUM_LIST_URL, { page, limit: PAGE_SIZE })
+      .pipe(
+        delay(randomDelay()),
+        map((photos) => ({
+          photos: photos.map(toPhoto),
+          hasMore: this.picsumPages.hasRemainingPages,
+        })),
+      );
   }
 }
 
@@ -53,5 +55,7 @@ function toPhoto(response: PicsumPhotoResponse): Photo {
 }
 
 function randomDelay(): number {
-  return Math.floor(Math.random() * (MAX_DELAY_MS - MIN_DELAY_MS + 1)) + MIN_DELAY_MS;
+  return (
+    Math.floor(Math.random() * (MAX_DELAY_MS - MIN_DELAY_MS + 1)) + MIN_DELAY_MS
+  );
 }

@@ -11,7 +11,12 @@ import { Snackbar } from '@core/snackbar';
 import { Photo } from '@shared/models/photo';
 
 import { FavoritesActions } from './favorites.actions';
-import { addFavorite$, loadFavorites$, notifyFavorites$, removeFavorite$ } from './favorites.effects';
+import {
+  addFavorite$,
+  loadFavorites$,
+  notifyFavorites$,
+  removeFavorite$,
+} from './favorites.effects';
 
 describe('favorites effects', () => {
   const photo: Photo = {
@@ -36,7 +41,9 @@ describe('favorites effects', () => {
     TestBed.configureTestingModule({
       providers: [
         provideMockActions(() => actions$),
-        provideMockStore({ initialState: { favorites: { entities, status: 'loaded' } } }),
+        provideMockStore({
+          initialState: { favorites: { entities, status: 'loaded' } },
+        }),
         { provide: LocalStorage, useValue: { getItem, setItem } },
         { provide: Snackbar, useValue: { open: snackbarOpen } },
       ],
@@ -48,11 +55,15 @@ describe('favorites effects', () => {
       setup();
       getItem.mockReturnValue({ [photo.id]: photo });
 
-      const result = firstValueFrom(TestBed.runInInjectionContext(() => loadFavorites$()));
+      const result = firstValueFrom(
+        TestBed.runInInjectionContext(() => loadFavorites$()),
+      );
       actions$.next(FavoritesActions.loadFavorites());
 
       expect(await result).toEqual(
-        FavoritesActions.loadFavoritesSuccess({ entities: { [photo.id]: photo } }),
+        FavoritesActions.loadFavoritesSuccess({
+          entities: { [photo.id]: photo },
+        }),
       );
     });
 
@@ -60,11 +71,15 @@ describe('favorites effects', () => {
       setup();
       getItem.mockReturnValue({ [photo.id]: photo });
 
-      const result = firstValueFrom(TestBed.runInInjectionContext(() => loadFavorites$()));
+      const result = firstValueFrom(
+        TestBed.runInInjectionContext(() => loadFavorites$()),
+      );
       actions$.next(rootEffectsInit());
 
       expect(await result).toEqual(
-        FavoritesActions.loadFavoritesSuccess({ entities: { [photo.id]: photo } }),
+        FavoritesActions.loadFavoritesSuccess({
+          entities: { [photo.id]: photo },
+        }),
       );
     });
 
@@ -72,10 +87,14 @@ describe('favorites effects', () => {
       setup();
       getItem.mockReturnValue(null);
 
-      const result = firstValueFrom(TestBed.runInInjectionContext(() => loadFavorites$()));
+      const result = firstValueFrom(
+        TestBed.runInInjectionContext(() => loadFavorites$()),
+      );
       actions$.next(FavoritesActions.loadFavorites());
 
-      expect(await result).toEqual(FavoritesActions.loadFavoritesSuccess({ entities: {} }));
+      expect(await result).toEqual(
+        FavoritesActions.loadFavoritesSuccess({ entities: {} }),
+      );
     });
 
     it('dispatches loadFavoritesFailure when reading storage throws', async () => {
@@ -84,7 +103,9 @@ describe('favorites effects', () => {
         throw new Error('Storage unavailable');
       });
 
-      const result = firstValueFrom(TestBed.runInInjectionContext(() => loadFavorites$()));
+      const result = firstValueFrom(
+        TestBed.runInInjectionContext(() => loadFavorites$()),
+      );
       actions$.next(FavoritesActions.loadFavorites());
 
       expect(await result).toEqual(
@@ -98,11 +119,15 @@ describe('favorites effects', () => {
         throw 'boom';
       });
 
-      const result = firstValueFrom(TestBed.runInInjectionContext(() => loadFavorites$()));
+      const result = firstValueFrom(
+        TestBed.runInInjectionContext(() => loadFavorites$()),
+      );
       actions$.next(FavoritesActions.loadFavorites());
 
       expect(await result).toEqual(
-        FavoritesActions.loadFavoritesFailure({ error: 'Something went wrong.' }),
+        FavoritesActions.loadFavoritesFailure({
+          error: 'Something went wrong.',
+        }),
       );
     });
   });
@@ -111,17 +136,23 @@ describe('favorites effects', () => {
     it('dispatches addFavoriteSuccess and persists a new favorite', async () => {
       setup({});
 
-      const result = firstValueFrom(TestBed.runInInjectionContext(() => addFavorite$()));
+      const result = firstValueFrom(
+        TestBed.runInInjectionContext(() => addFavorite$()),
+      );
       actions$.next(FavoritesActions.addFavorite({ photo }));
 
-      expect(await result).toEqual(FavoritesActions.addFavoriteSuccess({ photo }));
+      expect(await result).toEqual(
+        FavoritesActions.addFavoriteSuccess({ photo }),
+      );
       expect(setItem).toHaveBeenCalledWith('favorites', { [photo.id]: photo });
     });
 
     it('dispatches addFavoriteDuplicate without persisting for an existing favorite', async () => {
       setup({ [photo.id]: photo });
 
-      const result = firstValueFrom(TestBed.runInInjectionContext(() => addFavorite$()));
+      const result = firstValueFrom(
+        TestBed.runInInjectionContext(() => addFavorite$()),
+      );
       actions$.next(FavoritesActions.addFavorite({ photo }));
 
       expect(await result).toEqual(FavoritesActions.addFavoriteDuplicate());
@@ -134,7 +165,9 @@ describe('favorites effects', () => {
         throw new Error('Quota exceeded');
       });
 
-      const result = firstValueFrom(TestBed.runInInjectionContext(() => addFavorite$()));
+      const result = firstValueFrom(
+        TestBed.runInInjectionContext(() => addFavorite$()),
+      );
       actions$.next(FavoritesActions.addFavorite({ photo }));
 
       expect(await result).toEqual(
@@ -147,10 +180,14 @@ describe('favorites effects', () => {
     it('dispatches removeFavoriteSuccess and persists the entities without the removed photo', async () => {
       setup({ [photo.id]: photo });
 
-      const result = firstValueFrom(TestBed.runInInjectionContext(() => removeFavorite$()));
+      const result = firstValueFrom(
+        TestBed.runInInjectionContext(() => removeFavorite$()),
+      );
       actions$.next(FavoritesActions.removeFavorite({ id: photo.id }));
 
-      expect(await result).toEqual(FavoritesActions.removeFavoriteSuccess({ id: photo.id }));
+      expect(await result).toEqual(
+        FavoritesActions.removeFavoriteSuccess({ id: photo.id }),
+      );
       expect(setItem).toHaveBeenCalledWith('favorites', {});
     });
 
@@ -160,7 +197,9 @@ describe('favorites effects', () => {
         throw new Error('Quota exceeded');
       });
 
-      const result = firstValueFrom(TestBed.runInInjectionContext(() => removeFavorite$()));
+      const result = firstValueFrom(
+        TestBed.runInInjectionContext(() => removeFavorite$()),
+      );
       actions$.next(FavoritesActions.removeFavorite({ id: photo.id }));
 
       expect(await result).toEqual(
@@ -171,24 +210,45 @@ describe('favorites effects', () => {
 
   describe('notifyFavorites$', () => {
     it.each([
-      [FavoritesActions.loadFavoritesFailure({ error: 'x' }), 'Could not load your favorites', 'warn'],
-      [FavoritesActions.addFavoriteSuccess({ photo }), 'Added to favorites', 'success'],
+      [
+        FavoritesActions.loadFavoritesFailure({ error: 'x' }),
+        'Could not load your favorites',
+        'warn',
+      ],
+      [
+        FavoritesActions.addFavoriteSuccess({ photo }),
+        'Added to favorites',
+        'success',
+      ],
       [FavoritesActions.addFavoriteDuplicate(), 'Already in favorites', 'warn'],
-      [FavoritesActions.addFavoriteFailure({ error: 'x' }), 'Could not save your favorite', 'warn'],
-      [FavoritesActions.removeFavoriteSuccess({ id: photo.id }), 'Removed from favorites', 'success'],
+      [
+        FavoritesActions.addFavoriteFailure({ error: 'x' }),
+        'Could not save your favorite',
+        'warn',
+      ],
+      [
+        FavoritesActions.removeFavoriteSuccess({ id: photo.id }),
+        'Removed from favorites',
+        'success',
+      ],
       [
         FavoritesActions.removeFavoriteFailure({ error: 'x' }),
         'Could not remove your favorite',
         'warn',
       ],
-    ] as const)('shows the right toast for %s', async (action, message, type) => {
-      setup();
+    ] as const)(
+      'shows the right toast for %s',
+      async (action, message, type) => {
+        setup();
 
-      const emitted = firstValueFrom(TestBed.runInInjectionContext(() => notifyFavorites$()));
-      actions$.next(action);
-      await emitted;
+        const emitted = firstValueFrom(
+          TestBed.runInInjectionContext(() => notifyFavorites$()),
+        );
+        actions$.next(action);
+        await emitted;
 
-      expect(snackbarOpen).toHaveBeenCalledWith(message, type);
-    });
+        expect(snackbarOpen).toHaveBeenCalledWith(message, type);
+      },
+    );
   });
 });

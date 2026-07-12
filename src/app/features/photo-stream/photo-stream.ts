@@ -24,15 +24,24 @@ const SKELETON_COUNT = 8;
 export class PhotoStream implements OnDestroy {
   private readonly store = inject(Store);
 
-  protected readonly photos = this.store.selectSignal(photoStreamFeature.selectPhotos);
-  protected readonly status = this.store.selectSignal(photoStreamFeature.selectStatus);
-  protected readonly hasMore = this.store.selectSignal(photoStreamFeature.selectHasMore);
+  protected readonly photos = this.store.selectSignal(
+    photoStreamFeature.selectPhotos,
+  );
+  protected readonly status = this.store.selectSignal(
+    photoStreamFeature.selectStatus,
+  );
+  protected readonly hasMore = this.store.selectSignal(
+    photoStreamFeature.selectHasMore,
+  );
   protected readonly isLoading = computed(() => this.status() === 'loading');
   protected readonly error = computed(() => {
     const status = this.status();
     return typeof status === 'object' ? status.error : null;
   });
-  protected readonly skeletonPlaceholders = Array.from({ length: SKELETON_COUNT }, (_, i) => i);
+  protected readonly skeletonPlaceholders = Array.from(
+    { length: SKELETON_COUNT },
+    (_, i) => i,
+  );
 
   constructor() {
     this.loadPhotos();

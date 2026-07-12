@@ -1,4 +1,8 @@
-<button [matButton]="appearance()" [disabled]="disabled()" (click)="buttonClick.emit()">
+<button
+  [matButton]="appearance()"
+  [disabled]="disabled()"
+  (click)="buttonClick.emit()"
+>
   @if (icon(); as iconName) {
     <mat-icon matButtonIcon>{{ iconName }}</mat-icon>
   }

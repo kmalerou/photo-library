@@ -25,3 +25,5 @@ export const loadPhotos$ = createEffect(
     ),
   { functional: true },
 );
+
+export const photoStreamEffects = { loadPhotos$ };

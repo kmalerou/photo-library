@@ -16,29 +16,34 @@ describe('photoStreamFeature reducer', () => {
     height: 200,
   };
 
-  it('sets loading and clears any previous error on loadPhotos', () => {
+  it('starts idle with no photos', () => {
+    const state = photoStreamFeature.reducer(undefined, noop);
+
+    expect(state).toEqual({ photos: [], page: 1, status: 'idle' });
+  });
+
+  it('sets status to loading on loadPhotos', () => {
     const initialState = photoStreamFeature.reducer(undefined, noop);
 
     const state = photoStreamFeature.reducer(
-      { ...initialState, error: 'previous error' },
+      { ...initialState, status: { error: 'previous error' } },
       PhotoStreamActions.loadPhotos(),
     );
 
-    expect(state.loading).toBe(true);
-    expect(state.error).toBeNull();
+    expect(state.status).toBe('loading');
   });
 
-  it('appends photos and increments the page on loadPhotosSuccess', () => {
+  it('appends photos, increments the page, and sets status to loaded on loadPhotosSuccess', () => {
     const initialState = photoStreamFeature.reducer(undefined, noop);
 
     const state = photoStreamFeature.reducer(
-      { ...initialState, loading: true },
+      { ...initialState, status: 'loading' },
       PhotoStreamActions.loadPhotosSuccess({ photos: [photo] }),
     );
 
     expect(state.photos).toEqual([photo]);
     expect(state.page).toBe(2);
-    expect(state.loading).toBe(false);
+    expect(state.status).toBe('loaded');
   });
 
   it('accumulates photos across multiple pages rather than replacing them', () => {
@@ -56,16 +61,15 @@ describe('photoStreamFeature reducer', () => {
     expect(state.page).toBe(3);
   });
 
-  it('sets the error and clears loading on loadPhotosFailure', () => {
+  it('sets an error status on loadPhotosFailure', () => {
     const initialState = photoStreamFeature.reducer(undefined, noop);
 
     const state = photoStreamFeature.reducer(
-      { ...initialState, loading: true },
+      { ...initialState, status: 'loading' },
       PhotoStreamActions.loadPhotosFailure({ error: 'Failed to load photos.' }),
     );
 
-    expect(state.error).toBe('Failed to load photos.');
-    expect(state.loading).toBe(false);
+    expect(state.status).toEqual({ error: 'Failed to load photos.' });
   });
 
   it('returns to the initial state on reset', () => {

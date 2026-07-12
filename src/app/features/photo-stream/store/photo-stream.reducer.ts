@@ -1,21 +1,22 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 
+import { LoadStatus } from '@shared/models/load-status';
 import { Photo } from '@shared/models/photo';
 
 import { PhotoStreamActions } from './photo-stream.actions';
 
+export type PhotoStreamStatus = LoadStatus<string>;
+
 export interface PhotoStreamState {
   readonly photos: Photo[];
   readonly page: number;
-  readonly loading: boolean;
-  readonly error: string | null;
+  readonly status: PhotoStreamStatus;
 }
 
 const initialState: PhotoStreamState = {
   photos: [],
   page: 1,
-  loading: false,
-  error: null,
+  status: 'idle',
 };
 
 export const photoStreamFeature = createFeature({
@@ -24,28 +25,19 @@ export const photoStreamFeature = createFeature({
     initialState,
     on(
       PhotoStreamActions.loadPhotos,
-      (state): PhotoStreamState => ({
-        ...state,
-        loading: true,
-        error: null,
-      }),
+      (state): PhotoStreamState => ({ ...state, status: 'loading' }),
     ),
     on(
       PhotoStreamActions.loadPhotosSuccess,
       (state, { photos }): PhotoStreamState => ({
-        ...state,
         photos: [...state.photos, ...photos],
         page: state.page + 1,
-        loading: false,
+        status: 'loaded',
       }),
     ),
     on(
       PhotoStreamActions.loadPhotosFailure,
-      (state, { error }): PhotoStreamState => ({
-        ...state,
-        loading: false,
-        error,
-      }),
+      (state, { error }): PhotoStreamState => ({ ...state, status: { error } }),
     ),
     on(PhotoStreamActions.reset, (): PhotoStreamState => initialState),
   ),

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, OnDestroy, computed, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { Photo } from '@shared/models/photo';
@@ -25,8 +25,12 @@ export class PhotoStream implements OnDestroy {
   private readonly store = inject(Store);
 
   protected readonly photos = this.store.selectSignal(photoStreamFeature.selectPhotos);
-  protected readonly loading = this.store.selectSignal(photoStreamFeature.selectLoading);
-  protected readonly error = this.store.selectSignal(photoStreamFeature.selectError);
+  protected readonly status = this.store.selectSignal(photoStreamFeature.selectStatus);
+  protected readonly isLoading = computed(() => this.status() === 'loading');
+  protected readonly error = computed(() => {
+    const status = this.status();
+    return typeof status === 'object' ? status.error : null;
+  });
   protected readonly skeletonPlaceholders = Array.from({ length: SKELETON_COUNT }, (_, i) => i);
 
   constructor() {

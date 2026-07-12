@@ -1,27 +1,52 @@
-# GalleryTemplate
+# Photo Gallery
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 22.0.6.
+A photo browsing app built with Angular 22: an infinite-scrolling photostream, click-to-favorite, a Favorites library that persists across reloads, and a full-screen photo detail view.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Photostream** (`/`) — infinite-scrolling grid of random photos ([Picsum](https://picsum.photos))
+- **Favoriting** — click any photo to favorite it; favorites persist in `localStorage`
+- **Favorites library** (`/favorites`) — browse everything you've favorited
+- **Photo detail** (`/photos/:id`) — full-screen view of a favorited photo, with a remove action
 
-## Code scaffolding
+## Tech Stack
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Angular 22
+- Angular Material 22
+- NgRx 21
+- SCSS
+- Vitest
 
-## Build
+## Getting Started
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+npm install
+npm start
+```
 
-## Running unit tests
+Runs at `http://localhost:4200`.
 
-Run `ng test` to execute the unit tests via [Vitest](https://vitest.dev).
+> NgRx 21's published peer range doesn't cover Angular 22 yet — `package.json` scopes an `overrides` entry to just the three NgRx packages instead of disabling peer-dependency checks project-wide.
 
-## Running end-to-end tests
+## Scripts
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+| Command                 | Description                                    |
+| ------------------------ | ----------------------------------------------- |
+| `npm start`              | Run the dev server                              |
+| `npm run build`          | Production build (`dist/`)                      |
+| `npm test`                | Run unit tests                                  |
+| `npm run test:coverage`  | Run tests with a coverage report (gated at 75%)  |
+| `npm run lint`            | Lint the codebase                               |
+| `npm run format`          | Format with Prettier                            |
+| `git push`                | Runs `test:coverage` automatically via a Husky pre-push hook |
 
-## Further help
+## Project Structure
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```
+src/
+├── app/
+│   ├── core/       # app-wide singletons: API service, snackbar, header
+│   ├── shared/     # reusable UI wrappers and models
+│   └── features/   # one folder per route, each with its own NgRx slice
+└── environments/   # per-configuration environment files
+```

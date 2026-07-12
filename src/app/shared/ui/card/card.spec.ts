@@ -84,4 +84,38 @@ describe('Card', () => {
 
     expect(emitted).toBe(true);
   });
+
+  it('emits cardClick on Space key when interactive', async () => {
+    fixture.componentRef.setInput('interactive', true);
+    await fixture.whenStable();
+
+    let emitted = false;
+    component.cardClick.subscribe(() => (emitted = true));
+
+    fixture.nativeElement
+      .querySelector('mat-card')
+      .dispatchEvent(
+        new KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true }),
+      );
+    await fixture.whenStable();
+
+    expect(emitted).toBe(true);
+  });
+
+  it('does not emit cardClick on Space key when not interactive', async () => {
+    fixture.componentRef.setInput('interactive', false);
+    await fixture.whenStable();
+
+    let emitted = false;
+    component.cardClick.subscribe(() => (emitted = true));
+
+    fixture.nativeElement
+      .querySelector('mat-card')
+      .dispatchEvent(
+        new KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true }),
+      );
+    await fixture.whenStable();
+
+    expect(emitted).toBe(false);
+  });
 });

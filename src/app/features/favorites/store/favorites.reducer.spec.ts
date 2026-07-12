@@ -1,9 +1,10 @@
 import { Action } from '@ngrx/store';
+import { vi } from 'vitest';
 
 import { Photo } from '@shared/models/photo';
 
 import { FavoritesActions } from './favorites.actions';
-import { favoritesFeature } from './favorites.reducer';
+import { favoritesFeature, loadInitialState } from './favorites.reducer';
 
 describe('favoritesFeature reducer', () => {
   const noop: Action = { type: 'NOOP' };
@@ -40,6 +41,14 @@ describe('favoritesFeature reducer', () => {
     );
 
     expect(state).toBe(withOnePhoto);
+  });
+
+  it('falls back to empty entities when localStorage holds invalid JSON', () => {
+    const getItem = vi.spyOn(Storage.prototype, 'getItem').mockReturnValue('not-json');
+
+    expect(loadInitialState()).toEqual({ entities: {} });
+
+    getItem.mockRestore();
   });
 
   it('removes a photo on removeFavorite', () => {

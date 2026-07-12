@@ -10,7 +10,7 @@ export interface FavoritesState {
   readonly entities: Record<string, Photo>;
 }
 
-function loadInitialState(): FavoritesState {
+export function loadInitialState(): FavoritesState {
   try {
     const raw = localStorage.getItem(FAVORITES_STORAGE_KEY);
     return { entities: raw ? JSON.parse(raw) : {} };

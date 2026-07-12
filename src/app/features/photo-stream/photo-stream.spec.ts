@@ -1,8 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { vi } from 'vitest';
 
 import { Photo } from '@shared/models/photo';
+import { InfiniteScroll } from '@shared/ui/infinite-scroll';
 
 import { FavoritesActions } from '../favorites/store/favorites.actions';
 import { PhotoStream } from './photo-stream';
@@ -100,6 +102,18 @@ describe('PhotoStream', () => {
     await fixture.whenStable();
 
     expect(store.dispatch).toHaveBeenCalledWith(FavoritesActions.addFavorite({ photo }));
+  });
+
+  it('dispatches loadPhotos when the scroll sentinel reports scrolled', async () => {
+    setup({ photos: [photo], page: 2, loading: false, error: null });
+    await fixture.whenStable();
+    (store.dispatch as ReturnType<typeof vi.fn>).mockClear();
+
+    const sentinel = fixture.debugElement.query(By.directive(InfiniteScroll));
+    sentinel.injector.get(InfiniteScroll).scrolled.emit();
+    await fixture.whenStable();
+
+    expect(store.dispatch).toHaveBeenCalledWith(PhotoStreamActions.loadPhotos());
   });
 
   it('dispatches reset on destroy', async () => {

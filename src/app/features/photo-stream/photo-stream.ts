@@ -1,23 +1,45 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Store } from '@ngrx/store';
 
-import { Photo } from '@shared/models/photo';
+import { ErrorState } from '@shared/ui/error-state/error-state';
+import { Grid } from '@shared/ui/grid/grid';
+import { InfiniteScroll } from '@shared/ui/infinite-scroll';
 import { PhotoGrid } from '@shared/ui/photos/photo-grid/photo-grid';
+import { Skeleton } from '@shared/ui/skeleton/skeleton';
+import { Spinner } from '@shared/ui/spinner/spinner';
+
+import { PhotoStreamActions } from './store/photo-stream.actions';
+import { photoStreamFeature } from './store/photo-stream.reducer';
+
+const SKELETON_COUNT = 8;
 
 @Component({
   selector: 'app-photo-stream',
-  imports: [PhotoGrid],
+  imports: [PhotoGrid, Grid, Skeleton, Spinner, ErrorState, InfiniteScroll],
   templateUrl: './photo-stream.html',
   styleUrl: './photo-stream.scss',
 })
 export class PhotoStream {
-  protected readonly photos: Photo[] = Array.from({ length: 12 }, (_, index) => {
-    const id = index + 1;
-    return {
-      id: String(id),
-      author: `Author ${id}`,
-      url: `https://picsum.photos/id/${id}/400/300`,
-      width: 400,
-      height: 300,
-    };
-  });
+  private readonly store = inject(Store);
+
+  protected readonly photos = this.store.selectSignal(photoStreamFeature.selectPhotos);
+  protected readonly loading = this.store.selectSignal(photoStreamFeature.selectLoading);
+  protected readonly error = this.store.selectSignal(photoStreamFeature.selectError);
+  protected readonly skeletonPlaceholders = Array.from({ length: SKELETON_COUNT }, (_, i) => i);
+
+  constructor() {
+    this.loadPhotos();
+  }
+
+  protected onScrolled(): void {
+    this.loadPhotos();
+  }
+
+  protected retry(): void {
+    this.loadPhotos();
+  }
+
+  private loadPhotos(): void {
+    this.store.dispatch(PhotoStreamActions.loadPhotos());
+  }
 }

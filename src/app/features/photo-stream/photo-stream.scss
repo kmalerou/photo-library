@@ -1,0 +1,15 @@
+@use 'app/shared/styles/tokens';
+
+.skeleton-tile {
+  aspect-ratio: 4 / 3;
+}
+
+.scroll-sentinel {
+  height: 1px;
+}
+
+app-spinner {
+  display: flex;
+  justify-content: center;
+  padding: tokens.$spacing-lg 0;
+}

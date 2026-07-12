@@ -1,1 +1,28 @@
-<app-photo-grid [photos]="photos" />
+@if (photos().length === 0) {
+  @if (loading()) {
+    <app-grid>
+      @for (placeholder of skeletonPlaceholders; track placeholder) {
+        <app-skeleton class="skeleton-tile" />
+      }
+    </app-grid>
+  } @else if (error(); as message) {
+    <app-error-state [message]="message" (retry)="retry()" />
+  }
+} @else {
+  <app-photo-grid [photos]="photos()" />
+
+  <div
+    appInfiniteScroll
+    [disabled]="loading()"
+    (scrolled)="onScrolled()"
+    class="scroll-sentinel"
+  ></div>
+
+  @if (loading()) {
+    <app-spinner />
+  }
+
+  @if (error(); as message) {
+    <app-error-state [message]="message" (retry)="retry()" />
+  }
+}

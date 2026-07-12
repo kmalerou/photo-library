@@ -1,6 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { filter, map, take, withLatestFrom } from 'rxjs';
 
 import { Snackbar } from '@core/snackbar';
 
@@ -12,12 +13,18 @@ export const photoExistsGuard: CanActivateFn = (route) => {
   const snackbar = inject(Snackbar);
 
   const id = route.paramMap.get('id');
-  const entities = store.selectSignal(favoritesFeature.selectEntities)();
 
-  if (id && id in entities) {
-    return true;
-  }
+  return store.select(favoritesFeature.selectStatus).pipe(
+    filter((status) => status === 'loaded' || typeof status === 'object'),
+    take(1),
+    withLatestFrom(store.select(favoritesFeature.selectEntities)),
+    map(([, entities]) => {
+      if (id && id in entities) {
+        return true;
+      }
 
-  snackbar.open('Photo not found', 'warn');
-  return router.parseUrl('/favorites');
+      snackbar.open('Photo not found', 'warn');
+      return router.parseUrl('/favorites');
+    }),
+  );
 };

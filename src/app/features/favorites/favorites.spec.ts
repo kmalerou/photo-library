@@ -35,14 +35,14 @@ describe('Favorites', () => {
   }
 
   it('renders an empty state when there are no favorites', async () => {
-    setup({ entities: {} });
+    setup({ entities: {}, status: 'idle' });
     await fixture.whenStable();
 
     expect(fixture.nativeElement.querySelector('app-empty-state')).toBeTruthy();
   });
 
   it('navigates to / when browse photos is clicked from the empty state', async () => {
-    setup({ entities: {} });
+    setup({ entities: {}, status: 'idle' });
     await fixture.whenStable();
 
     fixture.nativeElement.querySelector('button').click();
@@ -52,14 +52,14 @@ describe('Favorites', () => {
   });
 
   it('renders the photo grid when favorites are present', async () => {
-    setup({ entities: { [photo.id]: photo } });
+    setup({ entities: { [photo.id]: photo }, status: 'loaded' });
     await fixture.whenStable();
 
     expect(fixture.nativeElement.querySelector('app-photo-grid')).toBeTruthy();
   });
 
   it('navigates to the detail page when a favorite photo is clicked', async () => {
-    setup({ entities: { [photo.id]: photo } });
+    setup({ entities: { [photo.id]: photo }, status: 'loaded' });
     await fixture.whenStable();
 
     fixture.nativeElement.querySelector('mat-card').click();

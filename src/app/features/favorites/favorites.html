@@ -1,9 +1,11 @@
-@if (favorites().length === 0) {
+@let items = favorites();
+
+@if (items.length === 0) {
   <app-empty-state
     message="You haven't favorited any photos yet."
     actionText="Browse photos"
     (action)="browsePhotos()"
   />
 } @else {
-  <app-photo-grid [photos]="favorites()" badge="favorite" (photoClick)="viewPhoto($event)" />
+  <app-photo-grid [photos]="items" badge="favorite" (photoClick)="viewPhoto($event)" />
 }

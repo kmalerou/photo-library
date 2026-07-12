@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, Router, convertToParamMap } from '@angular/router';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { vi } from 'vitest';
@@ -29,14 +29,11 @@ describe('PhotoDetail', () => {
       providers: [
         provideMockStore({ initialState: { favorites: { entities } } }),
         { provide: Router, useValue: { navigate } },
-        {
-          provide: ActivatedRoute,
-          useValue: { snapshot: { paramMap: convertToParamMap({ id }) } },
-        },
       ],
     });
 
     fixture = TestBed.createComponent(PhotoDetail);
+    fixture.componentRef.setInput('id', id);
   }
 
   it('renders the photo image when it exists in favorites', async () => {
@@ -52,6 +49,18 @@ describe('PhotoDetail', () => {
     await fixture.whenStable();
 
     expect(fixture.nativeElement.querySelector('img')).toBeNull();
+  });
+
+  it('switches to the new photo when the id input changes without recreating the component', async () => {
+    const otherPhoto: Photo = { ...photo, id: '2', author: 'John Roe' };
+    setup({ [photo.id]: photo, [otherPhoto.id]: otherPhoto });
+    await fixture.whenStable();
+
+    fixture.componentRef.setInput('id', otherPhoto.id);
+    await fixture.whenStable();
+
+    const img: HTMLImageElement = fixture.nativeElement.querySelector('img');
+    expect(img.src).toBe(otherPhoto.url);
   });
 
   it('dispatches removeFavorite and navigates to /favorites when remove is clicked', async () => {

@@ -1,5 +1,5 @@
-import { Component, computed, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, computed, inject, input } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { Button } from '@shared/ui/button/button';
@@ -17,16 +17,16 @@ import { favoritesFeature } from '../favorites/store/favorites.reducer';
 })
 export class PhotoDetail {
   private readonly store = inject(Store);
-  private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
-  private readonly id = this.route.snapshot.paramMap.get('id')!;
+  readonly id = input.required<string>();
+
   private readonly favoriteEntities = this.store.selectSignal(favoritesFeature.selectEntities);
 
-  protected readonly photo = computed(() => this.favoriteEntities()[this.id]);
+  protected readonly photo = computed(() => this.favoriteEntities()[this.id()]);
 
   protected remove(): void {
-    this.store.dispatch(FavoritesActions.removeFavorite({ id: this.id }));
+    this.store.dispatch(FavoritesActions.removeFavorite({ id: this.id() }));
     this.router.navigate(['/favorites']);
   }
 }

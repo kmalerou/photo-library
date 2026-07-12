@@ -1,6 +1,5 @@
 import {
   ApplicationConfig,
-  isDevMode,
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
 } from '@angular/core';
@@ -9,8 +8,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideRouter } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideState, provideStore } from '@ngrx/store';
-import { provideStoreDevtools } from '@ngrx/store-devtools';
 
+import { environment } from '../environments/environment';
 import { routes } from './app.routes';
 import { addFavorite$, removeFavorite$ } from './features/favorites/store/favorites.effects';
 import { favoritesFeature } from './features/favorites/store/favorites.reducer';
@@ -28,6 +27,6 @@ export const appConfig: ApplicationConfig = {
     provideState(photoStreamFeature),
     provideState(favoritesFeature),
     provideEffects({ loadPhotos$, addFavorite$, removeFavorite$ }),
-    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
+    ...environment.devtoolsProviders,
   ],
 };

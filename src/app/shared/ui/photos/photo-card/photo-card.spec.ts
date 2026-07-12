@@ -42,4 +42,19 @@ describe('PhotoCard', () => {
 
     expect(emitted).toBe(true);
   });
+
+  it('renders no badge by default', async () => {
+    await fixture.whenStable();
+
+    expect(fixture.nativeElement.querySelector('.badge-scrim')).toBeNull();
+  });
+
+  it('renders the favorite badge when requested', async () => {
+    fixture.componentRef.setInput('badge', 'favorite');
+    await fixture.whenStable();
+
+    const scrim = fixture.nativeElement.querySelector('.badge-scrim--favorite');
+    const icon = scrim?.querySelector('.badge-icon');
+    expect(icon?.textContent?.trim()).toBe('favorite');
+  });
 });

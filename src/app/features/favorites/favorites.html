@@ -5,5 +5,5 @@
     (action)="browsePhotos()"
   />
 } @else {
-  <app-photo-grid [photos]="favorites()" (photoClick)="viewPhoto($event)" />
+  <app-photo-grid [photos]="favorites()" badge="favorite" (photoClick)="viewPhoto($event)" />
 }

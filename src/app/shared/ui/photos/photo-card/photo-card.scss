@@ -1,3 +1,5 @@
+@use 'app/shared/styles/tokens';
+
 .photo-card {
   cursor: pointer;
 
@@ -7,4 +9,29 @@
     aspect-ratio: 4 / 3;
     object-fit: cover;
   }
+}
+
+.badge-scrim {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 40%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: tokens.$spacing-sm;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--badge-color) 45%, transparent),
+    transparent
+  );
+  pointer-events: none;
+}
+
+.badge-scrim--favorite {
+  --badge-color: #{tokens.$color-favorite-heart};
+}
+
+.badge-icon {
+  color: var(--badge-color);
 }

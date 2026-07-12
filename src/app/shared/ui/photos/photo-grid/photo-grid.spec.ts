@@ -51,4 +51,12 @@ describe('PhotoGrid', () => {
 
     expect(clicked).toEqual(photos[1]);
   });
+
+  it('forwards the badge input to every card', async () => {
+    fixture.componentRef.setInput('badge', 'favorite');
+    await fixture.whenStable();
+
+    const badges = fixture.nativeElement.querySelectorAll('.badge-scrim--favorite');
+    expect(badges.length).toBe(2);
+  });
 });

@@ -5,4 +5,11 @@
     [alt]="'Photo by ' + photo().author"
     loading="lazy"
   />
+  @switch (badge()) {
+    @case ('favorite') {
+      <div class="badge-scrim badge-scrim--favorite">
+        <app-icon name="favorite" class="badge-icon" />
+      </div>
+    }
+  }
 </app-card>

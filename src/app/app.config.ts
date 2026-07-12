@@ -7,10 +7,12 @@ import {
 import { provideHttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
-import { provideStore } from '@ngrx/store';
+import { provideState, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 import { routes } from './app.routes';
+import { loadPhotos$ } from './features/photo-stream/store/photo-stream.effects';
+import { photoStreamFeature } from './features/photo-stream/store/photo-stream.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,7 +21,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(),
     provideStore(),
-    provideEffects(),
+    provideState(photoStreamFeature),
+    provideEffects({ loadPhotos$ }),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],
 };

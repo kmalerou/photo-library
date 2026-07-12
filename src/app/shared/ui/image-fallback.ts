@@ -5,13 +5,13 @@ const FALLBACK_IMAGE = 'assets/image-fallback.svg';
 @Directive({
   selector: 'img[appImageFallback]',
   host: {
-    '(error)': 'onError()',
+    '(error)': 'applyFallback()',
   },
 })
 export class ImageFallback {
   private readonly elementRef = inject<ElementRef<HTMLImageElement>>(ElementRef);
 
-  protected onError(): void {
+  protected applyFallback(): void {
     this.elementRef.nativeElement.src = FALLBACK_IMAGE;
   }
 }

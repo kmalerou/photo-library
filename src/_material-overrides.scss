@@ -1,9 +1,13 @@
+@use 'app/shared/styles/tokens';
+
 .snackbar--success {
-  --mat-snack-bar-container-color: var(--mat-sys-primary);
-  --mat-snack-bar-supporting-text-color: var(--mat-sys-on-primary);
+  --mat-snack-bar-container-color: #{tokens.$color-success};
+  --mat-snack-bar-supporting-text-color: #{tokens.$color-success-text};
+  --mat-snack-bar-button-color: #{tokens.$color-success-text};
 }
 
 .snackbar--warn {
-  --mat-snack-bar-container-color: var(--mat-sys-tertiary);
-  --mat-snack-bar-supporting-text-color: var(--mat-sys-on-tertiary);
+  --mat-snack-bar-container-color: #{tokens.$color-warn};
+  --mat-snack-bar-supporting-text-color: #{tokens.$color-warn-text};
+  --mat-snack-bar-button-color: #{tokens.$color-warn-text};
 }

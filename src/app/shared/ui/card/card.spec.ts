@@ -56,6 +56,20 @@ describe('Card', () => {
     expect(emitted).toBe(true);
   });
 
+  it('does not render a header when title is not set', async () => {
+    await fixture.whenStable();
+
+    expect(fixture.nativeElement.querySelector('mat-card-header')).toBeNull();
+  });
+
+  it('renders the title inside a card header when set', async () => {
+    fixture.componentRef.setInput('title', 'Photo by Jane Doe');
+    await fixture.whenStable();
+
+    const title = fixture.nativeElement.querySelector('mat-card-title');
+    expect(title.textContent.trim()).toBe('Photo by Jane Doe');
+  });
+
   it('emits cardClick on Enter key when interactive', async () => {
     fixture.componentRef.setInput('interactive', true);
     await fixture.whenStable();

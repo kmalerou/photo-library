@@ -5,5 +5,10 @@
   (keydown.enter)="onClick()"
   (keydown.space)="onSpace($event)"
 >
+  @if (title()) {
+    <mat-card-header>
+      <mat-card-title>{{ title() }}</mat-card-title>
+    </mat-card-header>
+  }
   <ng-content />
 </mat-card>

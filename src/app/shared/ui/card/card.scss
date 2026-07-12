@@ -9,3 +9,7 @@ mat-card {
   overflow: hidden;
   border-radius: tokens.$radius-md;
 }
+
+mat-card-header {
+  justify-content: center;
+}

@@ -21,7 +21,7 @@ describe('Snackbar', () => {
   it('defaults to the success panel class', () => {
     snackbar.open('Added to favorites');
 
-    expect(open).toHaveBeenCalledWith('Added to favorites', undefined, {
+    expect(open).toHaveBeenCalledWith('Added to favorites', '✕', {
       duration: 3000,
       panelClass: 'snackbar--success',
     });
@@ -30,7 +30,7 @@ describe('Snackbar', () => {
   it('uses the warn panel class when specified', () => {
     snackbar.open('Removed from favorites', 'warn');
 
-    expect(open).toHaveBeenCalledWith('Removed from favorites', undefined, {
+    expect(open).toHaveBeenCalledWith('Removed from favorites', '✕', {
       duration: 3000,
       panelClass: 'snackbar--warn',
     });

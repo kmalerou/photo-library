@@ -10,7 +10,7 @@ export class Snackbar {
   private readonly snackBar = inject(MatSnackBar);
 
   open(message: string, type: SnackbarType = 'success'): void {
-    this.snackBar.open(message, undefined, {
+    this.snackBar.open(message, '✕', {
       duration: DURATION_MS,
       panelClass: `snackbar--${type}`,
     });

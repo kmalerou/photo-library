@@ -94,15 +94,13 @@ describe('Card', () => {
     let emitted = false;
     component.cardClick.subscribe(() => (emitted = true));
 
-    fixture.nativeElement
-      .querySelector('mat-card')
-      .dispatchEvent(
-        new KeyboardEvent('keydown', {
-          key: ' ',
-          bubbles: true,
-          cancelable: true,
-        }),
-      );
+    fixture.nativeElement.querySelector('mat-card').dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: ' ',
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
     await fixture.whenStable();
 
     expect(emitted).toBe(true);
@@ -115,15 +113,13 @@ describe('Card', () => {
     let emitted = false;
     component.cardClick.subscribe(() => (emitted = true));
 
-    fixture.nativeElement
-      .querySelector('mat-card')
-      .dispatchEvent(
-        new KeyboardEvent('keydown', {
-          key: ' ',
-          bubbles: true,
-          cancelable: true,
-        }),
-      );
+    fixture.nativeElement.querySelector('mat-card').dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: ' ',
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
     await fixture.whenStable();
 
     expect(emitted).toBe(false);

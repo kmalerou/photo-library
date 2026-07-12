@@ -26,7 +26,7 @@ npm start
 
 Runs at `http://localhost:4200`.
 
-> NgRx 21's published peer range doesn't cover Angular 22 yet — `package.json` scopes an `overrides` entry to just the three NgRx packages instead of disabling peer-dependency checks project-wide.
+> NgRx 21's published peer range doesn't cover Angular 22 yet — `package.json` scopes an `overrides` entry to just the three NgRx packages instead of disabling peer-dependency checks project-wide. The NgRx team has confirmed NgRx v21 works with Angular v22 in the interim before a v22 release ([ngrx/platform#5158](https://github.com/ngrx/platform/issues/5158)); they suggest `npm i --legacy-peer-deps` as the workaround, and the scoped `overrides` here achieve the same result without disabling peer-dependency checks for the whole project.
 
 ## Scripts
 

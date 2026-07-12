@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 
+import { photoExistsGuard } from './features/photo-detail/photo-exists-guard';
 import { PhotoStream } from './features/photo-stream/photo-stream';
 
 export const routes: Routes = [
@@ -13,6 +14,7 @@ export const routes: Routes = [
   },
   {
     path: 'photos/:id',
+    canActivate: [photoExistsGuard],
     loadComponent: () =>
       import('./features/photo-detail/photo-detail').then((m) => m.PhotoDetail),
   },

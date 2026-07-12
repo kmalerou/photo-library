@@ -1,1 +1,7 @@
-<p>photo-detail works!</p>
+@if (photo(); as p) {
+  <app-card class="photo-detail" [title]="'Photo by ' + p.author">
+    <img appImageFallback [src]="p.url" [alt]="'Photo by ' + p.author" />
+  </app-card>
+
+  <app-button text="Remove from favorites" icon="delete" (buttonClick)="remove()" />
+}

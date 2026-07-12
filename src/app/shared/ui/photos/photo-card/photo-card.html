@@ -1,8 +1,15 @@
-<app-card class="photo-card" [interactive]="true" (cardClick)="cardClick.emit()">
+@let currentPhoto = photo();
+
+<app-card
+  class="photo-card"
+  [interactive]="true"
+  [ariaLabel]="ariaLabel()"
+  (cardClick)="cardClick.emit()"
+>
   <img
     appImageFallback
-    [src]="photo().url"
-    [alt]="'Photo by ' + photo().author"
+    [src]="currentPhoto.url"
+    [alt]="'Photo by ' + currentPhoto.author"
     loading="lazy"
   />
   @switch (badge()) {

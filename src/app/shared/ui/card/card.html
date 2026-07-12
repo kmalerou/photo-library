@@ -1,13 +1,16 @@
+@let isInteractive = interactive();
+
 <mat-card
-  [attr.tabindex]="interactive() ? 0 : null"
-  [attr.role]="interactive() ? 'button' : null"
+  [attr.tabindex]="isInteractive ? 0 : null"
+  [attr.role]="isInteractive ? 'button' : null"
+  [attr.aria-label]="ariaLabel()"
   (click)="onClick()"
   (keydown.enter)="onClick()"
   (keydown.space)="onSpace($event)"
 >
-  @if (title()) {
+  @if (title(); as cardTitle) {
     <mat-card-header>
-      <mat-card-title>{{ title() }}</mat-card-title>
+      <mat-card-title>{{ cardTitle }}</mat-card-title>
     </mat-card-header>
   }
   <ng-content />

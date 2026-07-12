@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 
 import { Photo } from '@shared/models/photo';
 import { Card } from '@shared/ui/card/card';
@@ -17,4 +17,14 @@ export class PhotoCard {
   readonly photo = input.required<Photo>();
   readonly badge = input<PhotoCardBadge | null>(null);
   readonly cardClick = output<void>();
+
+  protected readonly ariaLabel = computed(() => {
+    const { author } = this.photo();
+    switch (this.badge()) {
+      case 'favorite':
+        return `View favored photo by ${author}`;
+      default:
+        return `Add photo by ${author} to collection`;
+    }
+  });
 }

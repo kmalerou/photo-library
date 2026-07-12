@@ -10,6 +10,7 @@ import { MatCardModule } from '@angular/material/card';
 export class Card {
   readonly interactive = input(false);
   readonly title = input<string | null>(null);
+  readonly ariaLabel = input<string | null>(null);
   readonly cardClick = output<void>();
 
   protected onClick(): void {

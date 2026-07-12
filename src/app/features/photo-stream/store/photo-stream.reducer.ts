@@ -47,5 +47,6 @@ export const photoStreamFeature = createFeature({
         error,
       }),
     ),
+    on(PhotoStreamActions.reset, (): PhotoStreamState => initialState),
   ),
 });

@@ -101,4 +101,14 @@ describe('PhotoStream', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(FavoritesActions.addFavorite({ photo }));
   });
+
+  it('dispatches reset on destroy', async () => {
+    setup({ photos: [photo], page: 2, loading: false, error: null });
+    await fixture.whenStable();
+    (store.dispatch as ReturnType<typeof vi.fn>).mockClear();
+
+    fixture.destroy();
+
+    expect(store.dispatch).toHaveBeenCalledWith(PhotoStreamActions.reset());
+  });
 });

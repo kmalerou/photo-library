@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { Photo } from '@shared/models/photo';
@@ -21,7 +21,7 @@ const SKELETON_COUNT = 8;
   templateUrl: './photo-stream.html',
   styleUrl: './photo-stream.scss',
 })
-export class PhotoStream {
+export class PhotoStream implements OnDestroy {
   private readonly store = inject(Store);
 
   protected readonly photos = this.store.selectSignal(photoStreamFeature.selectPhotos);
@@ -31,6 +31,10 @@ export class PhotoStream {
 
   constructor() {
     this.loadPhotos();
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(PhotoStreamActions.reset());
   }
 
   protected loadMore(): void {

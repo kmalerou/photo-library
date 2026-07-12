@@ -67,4 +67,16 @@ describe('photoStreamFeature reducer', () => {
     expect(state.error).toBe('Failed to load photos.');
     expect(state.loading).toBe(false);
   });
+
+  it('returns to the initial state on reset', () => {
+    const initialState = photoStreamFeature.reducer(undefined, noop);
+    const withPhotos = photoStreamFeature.reducer(
+      initialState,
+      PhotoStreamActions.loadPhotosSuccess({ photos: [photo] }),
+    );
+
+    const state = photoStreamFeature.reducer(withPhotos, PhotoStreamActions.reset());
+
+    expect(state).toEqual(initialState);
+  });
 });

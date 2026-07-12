@@ -8,5 +8,6 @@ export const PhotoStreamActions = createActionGroup({
     'Load Photos': emptyProps(),
     'Load Photos Success': props<{ photos: Photo[] }>(),
     'Load Photos Failure': props<{ error: string }>(),
+    Reset: emptyProps(),
   },
 });

@@ -9,12 +9,12 @@
     <app-error-state [message]="message" (retry)="retry()" />
   }
 } @else {
-  <app-photo-grid [photos]="photos()" />
+  <app-photo-grid [photos]="photos()" (photoClick)="addToFavorites($event)" />
 
   <div
     appInfiniteScroll
     [disabled]="loading()"
-    (scrolled)="onScrolled()"
+    (scrolled)="loadMore()"
     class="scroll-sentinel"
   ></div>
 

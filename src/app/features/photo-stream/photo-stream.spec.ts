@@ -4,6 +4,7 @@ import { vi } from 'vitest';
 
 import { Photo } from '@shared/models/photo';
 
+import { FavoritesActions } from '../favorites/store/favorites.actions';
 import { PhotoStream } from './photo-stream';
 import { PhotoStreamActions } from './store/photo-stream.actions';
 import { PhotoStreamState } from './store/photo-stream.reducer';
@@ -88,5 +89,16 @@ describe('PhotoStream', () => {
     await fixture.whenStable();
 
     expect(store.dispatch).toHaveBeenCalledWith(PhotoStreamActions.loadPhotos());
+  });
+
+  it('dispatches addFavorite when a photo card is clicked', async () => {
+    setup({ photos: [photo], page: 2, loading: false, error: null });
+    await fixture.whenStable();
+    (store.dispatch as ReturnType<typeof vi.fn>).mockClear();
+
+    fixture.nativeElement.querySelector('mat-card').click();
+    await fixture.whenStable();
+
+    expect(store.dispatch).toHaveBeenCalledWith(FavoritesActions.addFavorite({ photo }));
   });
 });

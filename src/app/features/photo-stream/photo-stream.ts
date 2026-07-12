@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 
+import { Photo } from '@shared/models/photo';
 import { ErrorState } from '@shared/ui/error-state/error-state';
 import { Grid } from '@shared/ui/grid/grid';
 import { InfiniteScroll } from '@shared/ui/infinite-scroll';
@@ -8,6 +9,7 @@ import { PhotoGrid } from '@shared/ui/photos/photo-grid/photo-grid';
 import { Skeleton } from '@shared/ui/skeleton/skeleton';
 import { Spinner } from '@shared/ui/spinner/spinner';
 
+import { FavoritesActions } from '../favorites/store/favorites.actions';
 import { PhotoStreamActions } from './store/photo-stream.actions';
 import { photoStreamFeature } from './store/photo-stream.reducer';
 
@@ -31,12 +33,16 @@ export class PhotoStream {
     this.loadPhotos();
   }
 
-  protected onScrolled(): void {
+  protected loadMore(): void {
     this.loadPhotos();
   }
 
   protected retry(): void {
     this.loadPhotos();
+  }
+
+  protected addToFavorites(photo: Photo): void {
+    this.store.dispatch(FavoritesActions.addFavorite({ photo }));
   }
 
   private loadPhotos(): void {

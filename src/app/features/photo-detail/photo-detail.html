@@ -1,6 +1,12 @@
 @if (photo(); as p) {
   <app-card class="photo-detail" [title]="'Photo by ' + p.author">
-    <img appImageFallback [src]="p.url" [alt]="'Photo by ' + p.author" />
+    <img
+      appImageFallback
+      [src]="p.url"
+      [alt]="'Photo by ' + p.author"
+      [width]="p.width"
+      [height]="p.height"
+    />
   </app-card>
 
   <app-button text="Remove from favorites" icon="delete" (buttonClick)="remove()" />

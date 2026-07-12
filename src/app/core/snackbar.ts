@@ -15,4 +15,8 @@ export class Snackbar {
       panelClass: `snackbar--${type}`,
     });
   }
+
+  dismiss(): void {
+    this.snackBar.dismiss();
+  }
 }

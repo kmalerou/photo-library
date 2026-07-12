@@ -6,13 +6,15 @@ import { Snackbar } from './snackbar';
 
 describe('Snackbar', () => {
   let open: ReturnType<typeof vi.fn>;
+  let dismiss: ReturnType<typeof vi.fn>;
   let snackbar: Snackbar;
 
   beforeEach(() => {
     open = vi.fn();
+    dismiss = vi.fn();
 
     TestBed.configureTestingModule({
-      providers: [{ provide: MatSnackBar, useValue: { open } }],
+      providers: [{ provide: MatSnackBar, useValue: { open, dismiss } }],
     });
 
     snackbar = TestBed.inject(Snackbar);
@@ -34,5 +36,11 @@ describe('Snackbar', () => {
       duration: 3000,
       panelClass: 'snackbar--warn',
     });
+  });
+
+  it('dismisses the current snackbar', () => {
+    snackbar.dismiss();
+
+    expect(dismiss).toHaveBeenCalled();
   });
 });

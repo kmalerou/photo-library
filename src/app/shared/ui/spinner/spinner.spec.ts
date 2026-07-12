@@ -24,4 +24,19 @@ describe('Spinner', () => {
     const spinner = fixture.nativeElement.querySelector('mat-progress-spinner');
     expect(spinner.style.width).toBe('24px');
   });
+
+  it('defaults to a generic aria-label', async () => {
+    await fixture.whenStable();
+
+    const spinner = fixture.nativeElement.querySelector('mat-progress-spinner');
+    expect(spinner.getAttribute('aria-label')).toBe('Loading');
+  });
+
+  it('applies a custom aria-label', async () => {
+    fixture.componentRef.setInput('ariaLabel', 'Loading more photos');
+    await fixture.whenStable();
+
+    const spinner = fixture.nativeElement.querySelector('mat-progress-spinner');
+    expect(spinner.getAttribute('aria-label')).toBe('Loading more photos');
+  });
 });
